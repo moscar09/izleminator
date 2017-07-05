@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Izleminator</title>
+    <style>
+      .main {
+        width: 200px;
+      }
+
+      .form-row {
+        height: 20px;
+        margin: 10px 0;
+      }
+
+      label {
+        font-weight: bold;
+        width:40%;
+        float: left;
+        padding-right: 10px;
+        box-sizing: border-box;
+        line-height: 20px;
+      }
+
+      #izl-enable {
+          height: 20px;
+      }
+
+      #izl-screen-name {
+        width: 60%;
+        float: left;
+        box-sizing: border-box;
+      }
+
+      #izl-submit {
+        float: right;
+      }
+    </style>
+    <script src="scripts/popup.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="form-row">
+        <label for="izl-name">Your name:</label>
+        <input type="text" id="izl-screen-name" name="izl-name" value="">
+      </div>
+      <div class="form-row">
+        <label for="izl-enable">Enabled:</label>
+        <input type="checkbox" id="izl-enable" name="izl-enable">
+        <input id="izl-submit" type="submit" name="submit" value="Izleminate!">
+      </div>
+    </div>
+  </body>
+</html>
