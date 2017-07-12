@@ -21,7 +21,15 @@
     "default_title": "Izleminate!"
   },
   "permissions": [
+    "tabs",
     "activeTab",
     "storage"
-  ]
+  ],
+  "web_accessible_resources": [
+    "scripts/JWPlayerWrapper.js",
+    "scripts/dizimag.js"
+  ],
+  "externally_connectable": {
+    "matches": ["http://dizimag2.co/*"]
+  }
 }
