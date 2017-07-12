@@ -49,3 +49,7 @@
 #izl-cw .chat-item.owner-system, #izl-cw .chat-item.owner-system .screen-name {
     color: #faa;
 }
+
+.izl_izleminated .jwcaptions {
+    width: 80%;
+}

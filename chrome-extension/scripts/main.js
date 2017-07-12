@@ -14,7 +14,7 @@ window.onload = function() {
         }
 
         if(izlEnabled == true) {
-            setTimeout(izleminate, 1000);
+            setTimeout(izleminate, 100);
         }
         window.addEventListener("message", function(playerEvent) {
             if (playerEvent.origin != 'http://dizimag2.co' || playerEvent.data.type != 'izl_page') {
@@ -53,6 +53,8 @@ window.onload = function() {
             'width': '80%',
             'float': 'left'
         });
+
+        $('#player').addClass('izl_izleminated');
         $('#player_media').after("<div id='izl-cw'><div id='chat-history'></div><textarea id='chatbox' rows='3'/></div>");
 
         injectJs();
