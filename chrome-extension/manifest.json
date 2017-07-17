@@ -5,7 +5,11 @@
   "description": "Enables a chat client along your video stream",
   "version": "0.3",
   "content_scripts": [{
-    "matches": ["http://dizimag2.co/*", "http://localhost:8080/*"],
+    "matches": [
+        "http://dizimag2.co/*",
+        "http://dizimag3.co/*",
+        "http://localhost:8080/*"
+    ],
     "js": [
         "scripts/lib/jquery.min.js",
         "scripts/lib/socket.io.js",
@@ -30,6 +34,9 @@
     "scripts/dizimag.js"
   ],
   "externally_connectable": {
-    "matches": ["http://dizimag2.co/*"]
+    "matches": [
+        "http://dizimag2.co/*",
+        "http://dizimag3.co/*"
+    ]
   }
 }

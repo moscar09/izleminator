@@ -4,6 +4,10 @@ window.onload = function() {
     var screenName;
     var izlEnabled;
     var socket;
+    var allowedSources = {
+        "http://dizimag2.co": true,
+        "http://dizimag3.co": true,
+    };
     chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
         screenName = items.izl_screen_name;
         izlEnabled = items.izl_enabled;
@@ -17,7 +21,7 @@ window.onload = function() {
             setTimeout(izleminate, 100);
         }
         window.addEventListener("message", function(playerEvent) {
-            if (playerEvent.origin != 'http://dizimag2.co' || playerEvent.data.type != 'izl_page') {
+            if (!allowedSources[playerEvent.origin] || playerEvent.data.type != 'izl_page') {
                 return;
             }
 
@@ -142,7 +146,7 @@ window.onload = function() {
 
     function messageToPlayer(message) {
         Object.assign(message, { type: 'izl_plugin' });
-        window.postMessage(message, "http://dizimag2.co/*");
+        window.postMessage(message, "*");
     }
 
     function injectJs() {

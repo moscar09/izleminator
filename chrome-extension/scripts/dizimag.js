@@ -3,6 +3,10 @@
 var player = new JWPlayerWrapper(window.jwplayer);
 var latestAction;
 var justDidSeek;
+var allowedSources = {
+    "http://dizimag2.co": true,
+    "http://dizimag3.co": true,
+};
 window.jwplayer().onPause(function() {
     console.log("onpause");
     izl_postMessage('pausePlayer');
@@ -27,7 +31,7 @@ window.jwplayer().onSeek(function(position) {
 });
 
 window.addEventListener('message', function(playerEvent) {
-    if (playerEvent.origin != 'http://dizimag2.co' || playerEvent.data.type != 'izl_plugin') {
+    if (!allowedSources[playerEvent.origin] || playerEvent.data.type != 'izl_plugin') {
         return;
     }
 
