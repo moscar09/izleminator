@@ -1,6 +1,8 @@
 package ro.moscar.IzleminatorServer.endpoints;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
@@ -21,21 +23,25 @@ import ro.moscar.IzleminatorServer.chat.MessageEncoder;
 )
 public class ChatEndpoint {
 	private Session session;
+	private static Map<String, ChatEndpoint> endpoints = new ConcurrentHashMap<String, ChatEndpoint>();
  
     @OnOpen
-    public void onOpen(Session session) throws IOException {
+    public void onOpen(Session session) throws IOException, EncodeException {
     	this.session = session;
-    	broadcast(new Message("Successfully connected!"));
+    	endpoints.put(session.getId(), this);
+    	session.getBasicRemote().sendObject(new Message("Welcome"));
     }
  
     @OnMessage
     public void onMessage(Session session, Message message) throws IOException {
-    	broadcast(new Message("Have a message!"));
+    	System.out.println("got a message" + message.getContent());
+    	broadcast(message);
     }
  
     @OnClose
     public void onClose(Session session) throws IOException {
-        // WebSocket connection closes
+    	endpoints.remove(session.getId());
+        System.out.println("Closing session" + session.getId());
     }
  
     @OnError
@@ -44,11 +50,15 @@ public class ChatEndpoint {
     }
     
     private void broadcast(Message message) {
-    	try {
-			session.getBasicRemote().sendObject(message);
-		} catch (IOException | EncodeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	endpoints.values().forEach(endpoint -> {
+    		synchronized(endpoint) {
+		    	try {
+		    		System.out.println("Sending to " + endpoint.session.getId());
+					endpoint.session.getBasicRemote().sendObject(message);
+				} catch (IOException | EncodeException e) {
+					e.printStackTrace();
+				}
+    	    }
+    	});
     }
 }

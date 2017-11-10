@@ -1,6 +1,8 @@
 *.swp
 chrome-extension/scripts/config.js
-izleminator-server/.gradle
 testing/*
 .DS_Store
 *.class
+izleminator-server/.gradle
+izleminator-server/bin/*
+izleminator-server/build/*
