@@ -6,6 +6,7 @@ var justDidSeek;
 var allowedSources = {
     "http://dizimag2.co": true,
     "http://dizimag3.co": true,
+    "http://dizimag4.co": true,
 };
 window.jwplayer().onPause(function() {
     console.log("onpause");
