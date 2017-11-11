@@ -30,7 +30,7 @@ window.IzleminatorChat = class {
                 var message = $(this).val();
                 console.log(message)
                 $(this).val('');
-                self.chatClient.sendMessage(message);
+                self.chatClient.sendMessage(message, IzleminatorClient.MessageTypeEnum.CHAT);
                 e.preventDefault();
             }
         e.stopPropagation();
@@ -40,7 +40,8 @@ window.IzleminatorChat = class {
 
     onMessageCallback(event, self) {
         var message = JSON.parse(event.data);
-        self.appendMessage(message.content, 'user', message.from);
+        console.dir(message);
+        self.appendMessage(message.content, message.messageType, message.from);
     }
 
     onCloseCallback(event, self) {
@@ -51,7 +52,7 @@ window.IzleminatorChat = class {
         console.log("on Error");
     }
 
-    appendMessage(message, owner, screenName) {
-        $('#chat-history').append( '<p class="chat-item owner-' + owner + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>');
+    appendMessage(message, type, screenName) {
+        $('#chat-history').append( '<p class="chat-item owner-' + type + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>');
     }
 }

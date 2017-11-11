@@ -1,10 +1,10 @@
 package ro.moscar.IzleminatorServer.chat;
 
-public class Message {
+public abstract class AbstractMessage {
 	private String content;
 	private String from;
 	
-	public Message(String content) {
+	public AbstractMessage(String content) {
 		this.content = content;
 	}
 	

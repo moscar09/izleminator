@@ -5,9 +5,10 @@ import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-public class MessageEncoder implements Encoder.Text<Message>{
-	private Gson gson = new Gson();
+public class MessageEncoder implements Encoder.Text<IMessage>{
+	private Gson gson = new GsonBuilder().excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT).create();
 
 	@Override
 	public void init(EndpointConfig config) {
@@ -22,7 +23,7 @@ public class MessageEncoder implements Encoder.Text<Message>{
 	}
 
 	@Override
-	public String encode(Message object) throws EncodeException {
+	public String encode(IMessage object) throws EncodeException {
 		return gson.toJson(object);
 	}
 

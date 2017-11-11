@@ -13,9 +13,10 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-import ro.moscar.IzleminatorServer.chat.Message;
+import ro.moscar.IzleminatorServer.chat.AbstractMessage;
 import ro.moscar.IzleminatorServer.chat.MessageDecoder;
 import ro.moscar.IzleminatorServer.chat.MessageEncoder;
+import ro.moscar.IzleminatorServer.chat.SystemMessage;
 
 @ServerEndpoint(
 	value = "/chat/{room}/{username}",
@@ -32,11 +33,11 @@ public class ChatEndpoint {
     	this.session = session;
     	endpoints.put(session.getId(), this);
     	users.put(session.getId(), username);
-    	session.getBasicRemote().sendObject(new Message("Welcome " + username));
+    	session.getBasicRemote().sendObject(new SystemMessage("Welcome " + username));
     }
  
     @OnMessage
-    public void onMessage(Session session, Message message) throws IOException {
+    public void onMessage(Session session, AbstractMessage message) throws IOException {
     	System.out.println("got a message" + message.getContent());
     	String user = users.get(session.getId());
     	message.setFrom(user);
@@ -51,10 +52,10 @@ public class ChatEndpoint {
  
     @OnError
     public void onError(Session session, Throwable throwable) {
-        // Do error handling here
+        System.out.println("Error");
     }
     
-    private void broadcast(Message message) {
+    private void broadcast(AbstractMessage message) {
     	endpoints.values().forEach(endpoint -> {
     		synchronized(endpoint) {
 		    	try {
