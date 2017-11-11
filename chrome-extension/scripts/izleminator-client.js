@@ -2,8 +2,11 @@
 
 window.IzleminatorClient = class {
     
-    constructor(_websocketUri) {
-        this.websocketUri = _websocketUri;
+    constructor(args) {
+        this.username     = args.username;
+        this.roomname     = args.roomname;
+        this.websocketUri = args.websocketUri + "/" + this.roomname + "/" + this.username;
+
     }
 
     set onOpen(_onOpenCallback) {
@@ -43,6 +46,7 @@ window.IzleminatorClient = class {
 }
 
 window.IzleminatorClient.MessageTypeEnum = Object.freeze({
-    CHAT: "chat",
-    SYSTEM: "system"
+    CHAT:    "chat",
+    CONTROL: "control",
+    SYSTEM:  "system"
 });

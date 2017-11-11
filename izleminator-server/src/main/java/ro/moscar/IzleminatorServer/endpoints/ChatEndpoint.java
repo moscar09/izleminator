@@ -10,6 +10,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import ro.moscar.IzleminatorServer.chat.Message;
@@ -17,24 +18,28 @@ import ro.moscar.IzleminatorServer.chat.MessageDecoder;
 import ro.moscar.IzleminatorServer.chat.MessageEncoder;
 
 @ServerEndpoint(
-	value = "/chat/{username}",
+	value = "/chat/{room}/{username}",
 	  decoders = MessageDecoder.class, 
 	  encoders = MessageEncoder.class
 )
 public class ChatEndpoint {
 	private Session session;
 	private static Map<String, ChatEndpoint> endpoints = new ConcurrentHashMap<String, ChatEndpoint>();
+	private static Map<String, String> users = new ConcurrentHashMap<String, String>();
  
     @OnOpen
-    public void onOpen(Session session) throws IOException, EncodeException {
+    public void onOpen(Session session, @PathParam("username") String username) throws IOException, EncodeException {
     	this.session = session;
     	endpoints.put(session.getId(), this);
-    	session.getBasicRemote().sendObject(new Message("Welcome"));
+    	users.put(session.getId(), username);
+    	session.getBasicRemote().sendObject(new Message("Welcome " + username));
     }
  
     @OnMessage
     public void onMessage(Session session, Message message) throws IOException {
     	System.out.println("got a message" + message.getContent());
+    	String user = users.get(session.getId());
+    	message.setFrom(user);
     	broadcast(message);
     }
  

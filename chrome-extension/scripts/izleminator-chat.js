@@ -1,12 +1,10 @@
 'use strict';
 
-window.IzleminatorChat = class {   
+window.IzleminatorChat = class {
     constructor(args) {
         this.playerMedia   = args.playerMedia;
         this.playerWrapper = args.playerWrapper;
-        var chatClient    = args.chatClient;
-
-        console.dir(chatClient);
+        this.chatClient    = args.chatClient;
 
         $(this.playerMedia).css({
             'width': '80%',
@@ -18,37 +16,42 @@ window.IzleminatorChat = class {
 
         var self = this;
 
-        chatClient.onOpen = function(e) {
-            $("#izl-cw #chatbox").keydown(function(e){
-                if(e.keyCode == 13) {
-                    var message = $(this).val();
-                    console.log(message)
-                    $(this).val('');
-                    chatClient.sendMessage(message);
-                    e.preventDefault();
-                }
-            e.stopPropagation();
-            });
-        }
- 
-        chatClient.onMessage = function(event) {
-            var message = JSON.parse(event.data);
-            self.appendMessage(message.content, 'user');
-        }
+        self.chatClient.onOpen    = function(e) { self.onOpenCallback(e, self); }
+        self.chatClient.onMessage = function(e) { self.onMessageCallback(e, self); }
+        self.chatClient.onClose   = function(e) { self.onCloseCallback(e, self); }
+        self.chatClient.onError   = function(e) { self.onErrorCallback(e, self); }
 
-        chatClient.onclose = function(evt) {
-            console.log("onclose.");
-        };
-        chatClient.onerror = function(evt) {
-            console.log("Error!");
-            console.dir(evt);
-        };
-
-
-        chatClient.open();
+        self.chatClient.open();
     }
 
-    appendMessage(message, owner) {
-        $('#chat-history').append( '<p class="chat-item owner-' + owner + '"><span class="screen-name">Someone:</span>' + message + '</p>');
+    onOpenCallback(event, self) {
+        $("#izl-cw #chatbox").keydown(function(e){
+            if(e.keyCode == 13) {
+                var message = $(this).val();
+                console.log(message)
+                $(this).val('');
+                self.chatClient.sendMessage(message);
+                e.preventDefault();
+            }
+        e.stopPropagation();
+        });
+
+    }
+
+    onMessageCallback(event, self) {
+        var message = JSON.parse(event.data);
+        self.appendMessage(message.content, 'user', message.from);
+    }
+
+    onCloseCallback(event, self) {
+        console.log("on Close");
+    }
+
+    onErrorCallback(event, self) {
+        console.log("on Error");
+    }
+
+    appendMessage(message, owner, screenName) {
+        $('#chat-history').append( '<p class="chat-item owner-' + owner + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>');
     }
 }
