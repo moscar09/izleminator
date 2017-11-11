@@ -8,6 +8,8 @@ import javax.websocket.EncodeException;
 
 import org.junit.Test;
 
+import com.google.gson.JsonObject;
+
 import ro.moscar.IzleminatorServer.chat.messages.ChatMessage;
 import ro.moscar.IzleminatorServer.chat.messages.ControlMessage;
 import ro.moscar.IzleminatorServer.chat.messages.SystemMessage;
@@ -44,14 +46,17 @@ public class MessageEncoderTest {
 	public void shouldEncodeChatMessages() {
 		IMessage message = new ChatMessage("Chat message");
 		message.setFrom("user");
-		String uuid = UUID.randomUUID().toString();
-		message.setFromUuid(uuid);
+		message.setFromUuid(UUID.randomUUID().toString());
 		MessageEncoder encoder = new MessageEncoder();
 		
+		JsonObject json = new JsonObject();
+		json.addProperty("messageType", "chat");
+		json.addProperty("content", message.getContent());
+		json.addProperty("from", message.getFrom());
+		json.addProperty("fromUuid", message.getFromUuid());
 		try {
 			String encoded = encoder.encode(message);
-			System.out.println(encoded);
-			assertEquals("{\"messageType\":\"chat\",\"content\":\"Chat message\",\"from\":\"user\",\"fromUuid\":\""+ uuid + "\"}", encoded);
+			assertEquals(json.toString(), encoded);
 		} catch (EncodeException e) {
 			e.printStackTrace();
 		}
