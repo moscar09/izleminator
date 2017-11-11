@@ -2,8 +2,14 @@
 window.TestPlayerWrapper = class {
     constructor(_player) {
         this.player        = _player;
-        this.playerMedia   = $("#playerContent");
-        this.playerWrapper = $("#playerWrapper")
+    }
+
+    static get playerMedia() {
+        return $("#playerContent");
+    }
+
+    static get playerWrapper() {
+        return $("#playerWrapper");
     }
 
     pause() {

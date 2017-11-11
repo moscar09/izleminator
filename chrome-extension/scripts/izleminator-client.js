@@ -1,7 +1,6 @@
 'use strict';
 
 window.IzleminatorClient = class {
-    
     constructor(args) {
         this.username     = args.username;
         this.roomname     = args.roomname;
@@ -30,7 +29,6 @@ window.IzleminatorClient = class {
         this.socket.onmessage  = this.onMessageCallback;
         this.socket.onclose    = this.onCloseCallback;
         this.socket.onerror    = this.onErrorCallback;
-
     }
 
     close() {
