@@ -8,6 +8,10 @@ import javax.websocket.EndpointConfig;
 
 import com.google.gson.Gson;
 
+import ro.moscar.IzleminatorServer.chat.messages.AbstractMessage;
+import ro.moscar.IzleminatorServer.chat.messages.ChatMessage;
+import ro.moscar.IzleminatorServer.chat.messages.ControlMessage;
+
 public class MessageDecoder implements Decoder.Text<AbstractMessage> {
 	private Gson gson = new Gson();
 	@Override
@@ -27,8 +31,6 @@ public class MessageDecoder implements Decoder.Text<AbstractMessage> {
 		Map<String, String> data = gson.fromJson(s, Map.class);
 
 		switch(data.get("messageType").toString()) {
-		case "system":
-			return new SystemMessage(data.get("content"));
 		case "control":
 			return new ControlMessage(data.get("content"));
 		default:

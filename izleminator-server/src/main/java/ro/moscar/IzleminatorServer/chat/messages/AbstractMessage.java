@@ -1,8 +1,9 @@
-package ro.moscar.IzleminatorServer.chat;
+package ro.moscar.IzleminatorServer.chat.messages;
 
 public abstract class AbstractMessage {
 	private String content;
 	private String from;
+	private String fromUuid;
 	
 	public AbstractMessage(String content) {
 		this.content = content;
@@ -22,5 +23,13 @@ public abstract class AbstractMessage {
 	
 	public void setFrom(String from) {
 		this.from = from;
+	}
+	
+	public String getFromUuid() {
+		return fromUuid;
+	}
+	
+	public void setFromUuid(String uuid) {
+		this.fromUuid = uuid;
 	}
 }

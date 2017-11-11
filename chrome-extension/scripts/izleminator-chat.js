@@ -35,13 +35,26 @@ window.IzleminatorChat = class {
             }
         e.stopPropagation();
         });
-
     }
 
     onMessageCallback(event, self) {
         var message = JSON.parse(event.data);
-        console.dir(message);
-        self.appendMessage(message.content, message.messageType, message.from);
+
+        switch(message.messageType) {
+            case IzleminatorClient.MessageTypeEnum.CONTROL:
+                var controlParams = message.content.split(":");
+                self.uuid = controlParams[1];
+                console.log(self.uuid);
+                break;
+            case IzleminatorClient.MessageTypeEnum.SYSTEM:
+                self.appendMessage(message.content, "system", message.from);
+                break;
+            case IzleminatorClient.MessageTypeEnum.CHAT:
+            var messageOwner = message.fromUuid == self.uuid ? "user" : "world";
+                self.appendMessage(message.content, messageOwner, message.from);
+                break;
+        }
+
     }
 
     onCloseCallback(event, self) {
@@ -52,7 +65,7 @@ window.IzleminatorChat = class {
         console.log("on Error");
     }
 
-    appendMessage(message, type, screenName) {
-        $('#chat-history').append( '<p class="chat-item owner-' + type + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>');
+    appendMessage(message, owner, screenName) {
+        $('#chat-history').append( '<p class="chat-item owner-' + owner + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>');
     }
 }

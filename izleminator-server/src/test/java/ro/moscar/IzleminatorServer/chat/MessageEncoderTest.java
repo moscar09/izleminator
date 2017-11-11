@@ -2,9 +2,15 @@ package ro.moscar.IzleminatorServer.chat;
 
 import static org.junit.Assert.*;
 
+import java.util.UUID;
+
 import javax.websocket.EncodeException;
 
 import org.junit.Test;
+
+import ro.moscar.IzleminatorServer.chat.messages.ChatMessage;
+import ro.moscar.IzleminatorServer.chat.messages.ControlMessage;
+import ro.moscar.IzleminatorServer.chat.messages.SystemMessage;
 
 public class MessageEncoderTest {
 
@@ -37,11 +43,15 @@ public class MessageEncoderTest {
 	@Test
 	public void shouldEncodeChatMessages() {
 		IMessage message = new ChatMessage("Chat message");
+		message.setFrom("user");
+		String uuid = UUID.randomUUID().toString();
+		message.setFromUuid(uuid);
 		MessageEncoder encoder = new MessageEncoder();
 		
 		try {
 			String encoded = encoder.encode(message);
-			assertEquals("{\"messageType\":\"chat\",\"content\":\"Chat message\"}", encoded);
+			System.out.println(encoded);
+			assertEquals("{\"messageType\":\"chat\",\"content\":\"Chat message\",\"from\":\"user\",\"fromUuid\":\""+ uuid + "\"}", encoded);
 		} catch (EncodeException e) {
 			e.printStackTrace();
 		}

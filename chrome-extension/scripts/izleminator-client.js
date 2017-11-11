@@ -6,7 +6,6 @@ window.IzleminatorClient = class {
         this.username     = args.username;
         this.roomname     = args.roomname;
         this.websocketUri = args.websocketUri + "/" + this.roomname + "/" + this.username;
-
     }
 
     set onOpen(_onOpenCallback) {

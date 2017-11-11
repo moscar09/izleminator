@@ -5,5 +5,7 @@ public interface IMessage {
 	public void setContent(String content);
 	public String getFrom();
 	public void setFrom(String from);
-	public MessageType getMessageType();	
+	public String getFromUuid();
+	public void setFromUuid(String uuid);
+	public MessageType getMessageType();
 }
