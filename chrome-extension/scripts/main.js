@@ -12,6 +12,7 @@ chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
     }
 
     var playerClass  = getPlayerClass(window.location.host);
+    window.playerClass = playerClass;
 
     checkIsContextReady(playerClass);
 });
@@ -72,13 +73,8 @@ function injectJs(playerClass) {
 function getPlayerClass(host) {
     switch (host) {
         case "tatooine.moscar.ro":
-            console.log("returning tpw");
             return TestPlayerWrapper;
         case "www.netflix.com":
-            console.log("returning cpw");
             return CadmiumPlayerWrapper;
     }
-
 }
-
-
