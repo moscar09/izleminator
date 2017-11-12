@@ -1,7 +1,29 @@
 "use strict";
 
 var izl_communicator = class {
-    static postMessage(action, extraData) {
+    constructor() {
+        var self = this;
+        window.addEventListener("message", function(playerEvent) {
+            if (playerEvent.data.type != 'izl_plugin') {
+                return;
+            }
+
+            console.dir(playerEvent.data);
+
+            self._maybeCallOnMessageCallback(playerEvent);
+
+        });
+    }
+
+    _maybeCallOnMessageCallback(playerEvent) {
+        this.onMessageCallback(playerEvent);
+    }
+
+    set onMessage(onMessageCallback) {
+        this.onMessageCallback = onMessageCallback;
+    }
+
+    postMessage(action, extraData) {
         var defaultData = {
             action: action,
             type: 'izl_page',
@@ -14,8 +36,9 @@ var izl_communicator = class {
         window.postMessage(defaultData, '*');
     }
 }
+
 var playerClass  = getPlayerClass(window.location.host);
-new playerClass(izl_communicator);    
+new playerClass(new izl_communicator());    
 
 function getPlayerClass(host) {
     switch (host) {

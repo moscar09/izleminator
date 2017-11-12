@@ -15,13 +15,6 @@ window.IzleminatorChat = class {
         $(this.playerMedia).after("<div id='izl-cw'><div id='chat-history'></div><textarea id='chatbox' rows='3'/></div>");
 
         var self = this;
-
-        self.chatClient.onOpen    = function(e) { self.onOpenCallback(e, self); }
-        self.chatClient.onMessage = function(e) { self.onMessageCallback(e, self); }
-        self.chatClient.onClose   = function(e) { self.onCloseCallback(e, self); }
-        self.chatClient.onError   = function(e) { self.onErrorCallback(e, self); }
-
-        self.chatClient.open();
     }
 
     onOpenCallback(event, self) {
@@ -45,8 +38,8 @@ window.IzleminatorChat = class {
                 var controlParams = message.content.split(":");
                 switch(controlParams[0]) {
                     case "userid":
-                        if (typeof self.uuid == 'undefined')
-                            self.uuid = controlParams[1];
+                        if (typeof self.fromUuid == 'undefined')
+                            self.fromUuid = controlParams[1];
                         break;
                     case "playerSeek":
                     case "playerPause":
@@ -58,7 +51,7 @@ window.IzleminatorChat = class {
                 self.appendMessage(message.content, "system", message.from);
                 break;
             case IzleminatorClient.MessageTypeEnum.CHAT:
-            var messageOwner = message.fromUuid == self.uuid ? "user" : "world";
+            var messageOwner = message.fromUuid == self.fromUuid ? "user" : "world";
                 self.appendMessage(message.content, messageOwner, message.from);
                 break;
         }

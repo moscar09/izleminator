@@ -40,13 +40,34 @@ function initializeContent(playerClass) {
         chatClient:    izleminatorClient
     });
 
+    izleminatorClient.onOpen    = function(e) { chatWindow.onOpenCallback(e, chatWindow); }
+    izleminatorClient.onClose   = function(e) { chatWindow.onCloseCallback(e, chatWindow); }
+    izleminatorClient.onError   = function(e) { chatWindow.onErrorCallback(e, chatWindow); }
+    izleminatorClient.onMessage = function(e) { 
+        chatWindow.onMessageCallback(e, chatWindow);
+        var message = JSON.parse(event.data);
+        if (message.messageType != IzleminatorClient.MessageTypeEnum.CONTROL) return;
+        if (message.fromUuid == chatWindow.fromUuid ) return;
+
+        sendToContent(message);
+    }
+
+    izleminatorClient.open();
+
     window.addEventListener("message", function(playerEvent) {
         if (playerEvent.data.type != 'izl_page') {
             return;
         }
 
         var data = playerEvent.data;
-        izleminatorClient.sendMessage(data.action, IzleminatorClient.MessageTypeEnum.CONTROL);
+        switch(data.action) {
+            case "seekPlayer":
+                izleminatorClient.sendMessage(data.action + ":" + data.position, IzleminatorClient.MessageTypeEnum.CONTROL);
+                break;
+            case "pausePlayer":
+                izleminatorClient.sendMessage(data.action, IzleminatorClient.MessageTypeEnum.CONTROL);
+                break;            
+        }
     });
 
 
@@ -77,4 +98,22 @@ function getPlayerClass(host) {
         case "www.netflix.com":
             return CadmiumPlayerWrapper;
     }
+}
+
+function sendToContent(message) {
+    var controlParams   = message.content.split(':');
+    var data = {
+        type: 'izl_plugin',
+    };
+
+    switch(controlParams[0]) {
+        case "seekPlayer":
+            data.action   = "seekPlayer";
+            data.position = controlParams[1];
+            break;
+        case "pausePlayer":
+            data.action   = "pausePlayer";
+            break;
+    }
+    window.postMessage(data, '*');
 }

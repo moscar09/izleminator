@@ -36,6 +36,7 @@ window.IzleminatorClient = class {
     }
 
     sendMessage(message, messageType) {
+        console.log("sending out " + message);
         this.socket.send(JSON.stringify({
             messageType: messageType,
             content: message

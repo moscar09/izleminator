@@ -8,15 +8,39 @@ window.TestPlayerWrapper = class {
         var startObj = document.getElementById("start");
         var self = this;
 
-        
+        self.inboundActions = {
+            seek: 0,
+            pause: 0
+        };
+
+        communicator.onMessage = function(message) {
+            switch(message.data.action) {
+                case "seekPlayer":
+                    self.inboundActions.seek++;
+                    self.seek(message.data.position);
+                    break;
+                case "pausePlayer":
+                    self.inboundActions.pause++;
+                    self.pause();
+                    break;
+            }
+        }
+
         pauseObj.addEventListener("click", function(){
-            console.log("player paused");
-            self.communicator.postMessage('pausePlayer');
+            if(self.inboundActions.pause > 0) {
+                self.inboundActions.pause--;
+            } else {
+                self.communicator.postMessage('pausePlayer');                
+            }
         });
 
         startObj.addEventListener("click", function(){
-            var position = startObj.getAttribute("data-position");
-            self.communicator.postMessage('seekPlayer', {position: position});
+            if(self.inboundActions.seek > 0) {
+                self.inboundActions.seek--;
+            } else {
+                var position = startObj.getAttribute("data-position");
+                self.communicator.postMessage('seekPlayer', {position: position});
+            }
         });
 
     }

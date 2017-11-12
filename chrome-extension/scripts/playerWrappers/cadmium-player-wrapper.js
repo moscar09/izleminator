@@ -10,6 +10,25 @@ window.CadmiumPlayerWrapper = class {
 
         var self = this;
 
+        self.inboundActions = {
+            seek: 0,
+            pause: 0
+        };
+
+        communicator.onMessage = function(message) {
+            switch(message.data.action) {
+                case "seekPlayer":
+                    self.inboundActions.seek++;
+                    self.seek(message.data.position);
+                    break;
+                case "pausePlayer":
+                    self.inboundActions.pause++;
+                    self.pause();
+                    break;
+            }
+        }
+
+
         this.videoElement.addEventListener("play", function(e) {
             var position = e.timeStamp;
             self.communicator.postMessage('seekPlayer', {position: position});       
@@ -26,16 +45,7 @@ window.CadmiumPlayerWrapper = class {
     static get includeFilename() { return "cadmium-player-wrapper.js"; }
     static isContextReady()      { return this.playerWrapper.length == 1; }
 
-    pause() {
-        this.videoPlayer.pause();
-    }
-
-    seek(position) {
-        this.videoPlayer.seek(position);
-    }
-
-    start() {
-        this.videoPlayer.play();
-    }
-
+    pause() { this.videoPlayer.pause(); }
+    start() { this.videoPlayer.play(); }
+    seek(position) { this.videoPlayer.seek(position); }
 }
