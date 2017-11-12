@@ -8,14 +8,13 @@
     "matches": [
         "http://tatooine.moscar.ro/*",
         "http://dizimag2.co/*",
-        "http://dizimag3.co/*",
-        "http://localhost:8080/*"
+        "http://dizimag3.co/*"
     ],
     "js": [
         "scripts/lib/jquery.min.js",
         "scripts/config.js",
         "scripts/playerWrappers/JWPlayerWrapper.js",
-        "scripts/playerWrappers/TestPlayerWrapper.js",
+        "scripts/playerWrappers/test-player-wrapper.js",
         "scripts/izleminator-client.js",
         "scripts/izleminator-chat.js",
         "scripts/main.js"
@@ -36,8 +35,9 @@
   ],
   "web_accessible_resources": [
     "scripts/playerWrappers/JWPlayerWrapper.js",
-    "scripts/playerWrappers/TestPlayerWrapper.js",
-    "scripts/dizimag.js"
+    "scripts/playerWrappers/test-player-wrapper.js",
+    "scripts/lib/jquery.min.js",    
+    "scripts/inlined.js"
   ],
   "externally_connectable": {
     "matches": [

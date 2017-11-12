@@ -43,8 +43,17 @@ window.IzleminatorChat = class {
         switch(message.messageType) {
             case IzleminatorClient.MessageTypeEnum.CONTROL:
                 var controlParams = message.content.split(":");
-                self.uuid = controlParams[1];
-                console.log(self.uuid);
+                switch(controlParams[0]) {
+                    "userid":
+                        if (typeof self.uuid == 'undefined') {
+                            self.uuid = controlParams[1];
+                        }
+                        break;
+                    "playerSeek":
+                    "playerPause":
+                    "playerStart":
+                        break;
+                }
                 break;
             case IzleminatorClient.MessageTypeEnum.SYSTEM:
                 self.appendMessage(message.content, "system", message.from);
@@ -58,7 +67,9 @@ window.IzleminatorChat = class {
     }
 
     onCloseCallback(event, self) {
-        console.log("on Close");
+        var message = "Connection closed.";
+        message += event.reason ? event.reason : "";
+        self.appendMessage(message, "system", "system");
     }
 
     onErrorCallback(event, self) {
