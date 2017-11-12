@@ -7,11 +7,24 @@ chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
     screenName = items.izl_screen_name;
     izlEnabled = items.izl_enabled;
 
-    console.log("wolo");
     if (izlEnabled != true) {
         return;
     }
 
+    var playerClass  = getPlayerClass(window.location.host);
+
+    checkIsContextReady(playerClass);
+});
+
+function checkIsContextReady(playerClass) {
+    if(playerClass.isContextReady()) {
+        initializeContent(playerClass);        
+    } else {
+        setTimeout( function() { checkIsContextReady(playerClass) }, 500 );
+    }
+}
+
+function initializeContent(playerClass) {
     var roomname  = "test737";
     var izleminatorClient = new IzleminatorClient({
         websocketUri: socketUri,
@@ -19,7 +32,6 @@ chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
         username:     screenName
     });
 
-    var playerClass  = TestPlayerWrapper;
 
     var chatWindow = new IzleminatorChat({
         playerMedia:   playerClass.playerMedia,
@@ -33,38 +45,13 @@ chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
         }
 
         var data = playerEvent.data;
-
         izleminatorClient.sendMessage(data.action, IzleminatorClient.MessageTypeEnum.CONTROL);
-
-        // switch(data.action) {
-
-            // case "pausePlayer":
-            //     pushMessage('system-control', {
-            //         action: playerEvent.data.action,
-            //     });
-            //     appendMessage('You have paused the player', 'system', 'System');
-            //     break;
-            // case "startPlayer":
-            //     pushMessage('system-control', {
-            //         action:   playerEvent.data.action,
-            //         position: playerEvent.data.position
-            //     });
-            //     appendMessage('You have started the player', 'system', 'System');
-            //     break;
-
-            // case "seekPlayer":
-            //     pushMessage('system-control', {
-            //         action:   playerEvent.data.action,
-            //         position: playerEvent.data.position
-            //     });
-            //     appendMessage('You have moved the player to ' + playerEvent.data.position, 'system', 'System');
-            //     break;
-        // }
     });
 
 
     injectJs(playerClass);
-});
+
+}
 
 function injectJs(playerClass) {
     var jqIncluder    = document.createElement('script');
@@ -81,3 +68,17 @@ function injectJs(playerClass) {
     }
     document.body.appendChild(jqIncluder);
 }
+
+function getPlayerClass(host) {
+    switch (host) {
+        case "tatooine.moscar.ro":
+            console.log("returning tpw");
+            return TestPlayerWrapper;
+        case "www.netflix.com":
+            console.log("returning cpw");
+            return CadmiumPlayerWrapper;
+    }
+
+}
+
+

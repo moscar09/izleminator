@@ -33,6 +33,10 @@ window.TestPlayerWrapper = class {
         return "test-player-wrapper.js";
     }
 
+    static isContextReady() {
+        return this.playerWrapper.length == 1;
+    }
+
     pause() {
         this.player.find("#state").html("Pausing");
     }

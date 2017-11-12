@@ -16,6 +16,6 @@ window.addEventListener("load", function(event) {
         }
     }
 
-    var player = new TestPlayerWrapper(izl_communicator);    
+    var player = new CadmiumPlayerWrapper(izl_communicator);    
 }
 );

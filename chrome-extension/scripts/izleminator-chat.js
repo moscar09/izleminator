@@ -44,14 +44,13 @@ window.IzleminatorChat = class {
             case IzleminatorClient.MessageTypeEnum.CONTROL:
                 var controlParams = message.content.split(":");
                 switch(controlParams[0]) {
-                    "userid":
-                        if (typeof self.uuid == 'undefined') {
+                    case "userid":
+                        if (typeof self.uuid == 'undefined')
                             self.uuid = controlParams[1];
-                        }
                         break;
-                    "playerSeek":
-                    "playerPause":
-                    "playerStart":
+                    case "playerSeek":
+                    case "playerPause":
+                    case "playerStart":
                         break;
                 }
                 break;

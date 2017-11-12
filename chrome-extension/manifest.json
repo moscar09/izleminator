@@ -8,12 +8,14 @@
     "matches": [
         "http://tatooine.moscar.ro/*",
         "http://dizimag2.co/*",
-        "http://dizimag3.co/*"
+        "http://dizimag3.co/*",
+        "https://www.netflix.com/watch/*"
     ],
     "js": [
         "scripts/lib/jquery.min.js",
         "scripts/config.js",
         "scripts/playerWrappers/JWPlayerWrapper.js",
+        "scripts/playerWrappers/cadmium-player-wrapper.js",
         "scripts/playerWrappers/test-player-wrapper.js",
         "scripts/izleminator-client.js",
         "scripts/izleminator-chat.js",
@@ -30,11 +32,11 @@
   },
   "permissions": [
     "tabs",
-    "activeTab",
     "storage"
   ],
   "web_accessible_resources": [
     "scripts/playerWrappers/JWPlayerWrapper.js",
+    "scripts/playerWrappers/cadmium-player-wrapper.js",
     "scripts/playerWrappers/test-player-wrapper.js",
     "scripts/lib/jquery.min.js",    
     "scripts/inlined.js"
