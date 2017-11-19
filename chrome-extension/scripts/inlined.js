@@ -38,7 +38,7 @@ var izl_communicator = class {
 }
 
 var playerClass  = getPlayerClass(window.location.host);
-new playerClass(new izl_communicator());    
+var Izl_pl = new playerClass(new izl_communicator());
 
 function getPlayerClass(host) {
     switch (host) {

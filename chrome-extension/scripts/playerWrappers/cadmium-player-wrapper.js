@@ -33,7 +33,7 @@ window.CadmiumPlayerWrapper = class {
             if (self.inboundActions.seek > 0) {
                 self.inboundActions.seek--;
             } else {
-                var position = e.timeStamp;
+                var position = self.getSeekPosition();
                 self.communicator.postMessage('seekPlayer', {position: position});
             }
         });
@@ -54,5 +54,6 @@ window.CadmiumPlayerWrapper = class {
 
     pause() { this.videoPlayer.pause(); }
     start() { this.videoPlayer.play(); }
-    seek(position) { this.videoPlayer.seek(position); this.start(); }
+    getSeekPosition() { return this.videoPlayer.getCurrentTime() }
+    seek(position)    { this.videoPlayer.seek(position); }
 }
