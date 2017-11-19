@@ -30,14 +30,21 @@ window.CadmiumPlayerWrapper = class {
 
 
         this.videoElement.addEventListener("play", function(e) {
-            var position = e.timeStamp;
-            self.communicator.postMessage('seekPlayer', {position: position});       
-
-        })
+            if (self.inboundActions.seek > 0) {
+                self.inboundActions.seek--;
+            } else {
+                var position = e.timeStamp;
+                self.communicator.postMessage('seekPlayer', {position: position});
+            }
+        });
 
         this.videoElement.addEventListener("pause", function(e) {
-            self.communicator.postMessage('pausePlayer');            
-        })
+            if(self.inboundActions.pause > 0) {
+                self.inboundActions.pause--;
+            } else {
+                self.communicator.postMessage('pausePlayer');
+            }
+        });
     }
 
     static get playerMedia()     { return $('.NFPlayer'); }
@@ -47,5 +54,5 @@ window.CadmiumPlayerWrapper = class {
 
     pause() { this.videoPlayer.pause(); }
     start() { this.videoPlayer.play(); }
-    seek(position) { this.videoPlayer.seek(position); }
+    seek(position) { this.videoPlayer.seek(position); this.start(); }
 }

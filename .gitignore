@@ -6,3 +6,4 @@ testing/*
 izleminator-server/.gradle
 izleminator-server/bin/*
 izleminator-server/build/*
+*.sublime*
