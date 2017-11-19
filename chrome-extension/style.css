@@ -12,7 +12,7 @@
 #izl-cw #chat-history {
     padding: 20px;
     position: absolute;
-    bottom: 40px;
+    bottom: 55px;
     width: 100%;
     word-wrap: break-word;
     box-sizing: border-box;
@@ -24,22 +24,28 @@
     bottom: 0;
     width: 100%;
     box-sizing: border-box;
-    color: #fff;
+    color: #999;
     background-color: #000;
-    border: none;
+    border: 1px solid #000;
+    border-top: 1px solid #333;
     font-size: 16px;
+    padding: 10px;
+    resize: none;
+}
+
+#izl-cw #chatbox:focus{
+    outline:none;
 }
 
 #izl-cw .chat-item {
     padding: 0;
-    margin: 5px 0;
-    color: #fff;
+    margin: 15px 0;
+    color: #999;
 }
 
 #izl-cw .chat-item .screen-name {
   font-weight: bold;
   margin-right: 5px;
-  color: #fff;
 }
 
 #izl-cw .chat-item.owner-world {
@@ -47,7 +53,7 @@
 }
 
 #izl-cw .chat-item.owner-system, #izl-cw .chat-item.owner-system .screen-name {
-    color: #faa;
+    color: #966;
 }
 
 .izl_izleminated .jwcaptions, .izl_izleminated video {

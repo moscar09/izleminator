@@ -20,11 +20,12 @@ window.IzleminatorChat = class {
     onOpenCallback(event, self) {
         $("#izl-cw #chatbox").keydown(function(e){
             if(e.keyCode == 13) {
-                var message = $(this).val();
-                console.log(message)
-                $(this).val('');
-                self.chatClient.sendMessage(message, IzleminatorClient.MessageTypeEnum.CHAT);
                 e.preventDefault();
+                var message = $(this).val();
+                if (message == '') return;
+
+                self.chatClient.sendMessage(message, IzleminatorClient.MessageTypeEnum.CHAT);
+                $(this).val('');
             }
         e.stopPropagation();
         });
