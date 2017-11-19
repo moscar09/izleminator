@@ -1,5 +1,7 @@
 package ro.moscar.IzleminatorServer.chat.messages;
 
+import ro.moscar.IzleminatorServer.chat.MessageType;
+
 public abstract class AbstractMessage {
 	private String content;
 	private String from;
@@ -32,4 +34,6 @@ public abstract class AbstractMessage {
 	public void setFromUuid(String uuid) {
 		this.fromUuid = uuid;
 	}
+	
+	public abstract MessageType getMessageType();
 }

@@ -24,11 +24,15 @@ window.IzleminatorClient = class {
     }
 
     open() {
-        this.socket            = new WebSocket(this.websocketUri);        
-        this.socket.onopen     = this.onOpenCallback;
+        this.socket            = new WebSocket(this.websocketUri);
         this.socket.onmessage  = this.onMessageCallback;
         this.socket.onclose    = this.onCloseCallback;
         this.socket.onerror    = this.onErrorCallback;
+        var self = this;
+        this.socket.onopen     = function () {
+            self.heartBeat();
+            self.onOpenCallback();
+        };
     }
 
     close() {
@@ -36,16 +40,26 @@ window.IzleminatorClient = class {
     }
 
     sendMessage(message, messageType) {
-        console.log("sending out " + message);
         this.socket.send(JSON.stringify({
             messageType: messageType,
             content: message
         }));
+    }
+
+    heartBeat() {
+        var self = this;
+
+        if(self.socket.readyState === self.socket.CLOSED) {
+            return
+        }
+        self.sendMessage("HB", IzleminatorClient.MessageTypeEnum.HEARTBEAT);       
+        setTimeout( function() { self.heartBeat() }, 2000 );
     }
 }
 
 window.IzleminatorClient.MessageTypeEnum = Object.freeze({
     CHAT:    "chat",
     CONTROL: "control",
-    SYSTEM:  "system"
+    HEARTBEAT: "heartbeat",
+    SYSTEM:  "system",
 });

@@ -15,6 +15,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import ro.moscar.IzleminatorServer.chat.MessageDecoder;
 import ro.moscar.IzleminatorServer.chat.MessageEncoder;
+import ro.moscar.IzleminatorServer.chat.MessageType;
 import ro.moscar.IzleminatorServer.chat.User;
 import ro.moscar.IzleminatorServer.chat.messages.AbstractMessage;
 import ro.moscar.IzleminatorServer.chat.messages.ControlMessage;
@@ -43,11 +44,23 @@ public class ChatEndpoint {
  
     @OnMessage
     public void onMessage(Session session, AbstractMessage message) throws IOException {
-    	System.out.println("got a message" + message.getContent());
     	User user = users.get(session.getId());
     	message.setFrom(user.getUsername());
     	message.setFromUuid(user.getUuid());
-    	broadcast(message);
+
+    	System.out.println(user.getUsername() + ": " + message.getContent());
+  	
+
+    	
+    	if(message.getMessageType() == MessageType.HEARTBEAT) {
+    		try {
+				this.sendToUser(message, session);
+			} catch (EncodeException e) {
+				e.printStackTrace();
+			}
+    	} else {
+    		broadcast(message);
+    	}
     }
  
     @OnClose
@@ -66,11 +79,15 @@ public class ChatEndpoint {
     		synchronized(endpoint) {
 		    	try {
 		    		System.out.println("Sending to " + endpoint.session.getId());
-					endpoint.session.getBasicRemote().sendObject(message);
+		    		this.sendToUser(message, endpoint.session);
 				} catch (IOException | EncodeException e) {
 					e.printStackTrace();
 				}
     	    }
     	});
+    }
+    
+    private void sendToUser(AbstractMessage message, Session session) throws IOException, EncodeException {
+    	session.getBasicRemote().sendObject(message);
     }
 }

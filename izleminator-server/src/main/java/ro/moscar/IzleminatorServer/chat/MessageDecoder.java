@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import ro.moscar.IzleminatorServer.chat.messages.AbstractMessage;
 import ro.moscar.IzleminatorServer.chat.messages.ChatMessage;
 import ro.moscar.IzleminatorServer.chat.messages.ControlMessage;
+import ro.moscar.IzleminatorServer.chat.messages.HeartbeatMessage;
 
 public class MessageDecoder implements Decoder.Text<AbstractMessage> {
 	private Gson gson = new Gson();
@@ -33,6 +34,8 @@ public class MessageDecoder implements Decoder.Text<AbstractMessage> {
 		switch(data.get("messageType").toString()) {
 		case "control":
 			return new ControlMessage(data.get("content"));
+		case "heartbeat":
+			return new HeartbeatMessage();
 		default:
 			return new ChatMessage(data.get("content"));
 		}

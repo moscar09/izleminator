@@ -58,7 +58,6 @@ window.CadmiumPlayerWrapper = class {
                 self.communicator.postMessage('seekPlayer', {position: self.getSeekPosition()});
             }
         });
-
     }
 
     static get playerMedia()     { return $('.NFPlayer'); }

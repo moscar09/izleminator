@@ -64,9 +64,7 @@ window.IzleminatorChat = class {
         self.appendMessage(message, "system", "system");
     }
 
-    onErrorCallback(event, self) {
-        console.log("on Error");
-    }
+    onErrorCallback(event, self) {}
 
     appendMessage(message, owner, screenName) {
         $('#chat-history').append( '<p class="chat-item owner-' + owner + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>');
