@@ -11,19 +11,21 @@ window.CadmiumPlayerWrapper = class {
         var self = this;
 
         self.inboundActions = {
-            pause: 0,
             seek: 0,
-            start: 0,
+            seekAndPlay: 0,
+            pause: 0
         };
 
         communicator.onMessage = function(message) {
             switch(message.data.action) {
-                case "startPlayer":
-                    self.inboundActions.start++;
-                    self.start();
                 case "seekPlayer":
                     self.inboundActions.seek++;
                     self.seek(message.data.position);
+                    break;
+                case "seekAndPlayPlayer":
+                    self.inboundActions.seekAndPlay++;
+                    self.seek(message.data.position);
+                    self.play();
                     break;
                 case "pausePlayer":
                     self.inboundActions.pause++;
@@ -32,14 +34,12 @@ window.CadmiumPlayerWrapper = class {
             }
         }
 
-
         this.videoElement.addEventListener("play", function(e) {
-            if (self.inboundActions.seek > 0) {
-                self.inboundActions.seek--;
+            if (self.inboundActions.seekAndPlay > 0) {
+                self.inboundActions.seekAndPlay--;
             } else {
                 var position = self.getSeekPosition();
-                self.communicator.postMessage('seekPlayer',  {position: position});
-                self.communicator.postMessage('startPlayer');
+                self.communicator.postMessage('seekAndPlayPlayer', {position: position});
             }
         });
 

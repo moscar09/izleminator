@@ -62,14 +62,14 @@ function initializeContent(playerClass) {
         var data = playerEvent.data;
         switch(data.action) {
             case "seekPlayer":
+            case "seekAndPlay":
                 izleminatorClient.sendMessage(data.action + ":" + data.position, IzleminatorClient.MessageTypeEnum.CONTROL);
                 break;
-            default:
+            case "pausePlayer":
                 izleminatorClient.sendMessage(data.action, IzleminatorClient.MessageTypeEnum.CONTROL);
                 break;            
         }
     });
-
 
     injectJs(playerClass);
 
@@ -108,13 +108,13 @@ function sendToContent(message) {
 
     switch(controlParams[0]) {
         case "seekPlayer":
-            data.action   = "seekPlayer";
+        case "seekAndPlay":
+            data.action   = controlParams[0];
             data.position = controlParams[1];
             break;
         default:
-            data.action = controlParams[0];
+            data.action   = controlParams[0];
             break;
     }
-
     window.postMessage(data, '*');
 }
