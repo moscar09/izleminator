@@ -50,6 +50,15 @@ window.CadmiumPlayerWrapper = class {
                 self.communicator.postMessage('pausePlayer');
             }
         });
+
+        this.videoElement.addEventListener("seeking", function(e) {
+            if(self.inboundActions.seek > 0) {
+                self.inboundActions.seek--;
+            } else {
+                self.communicator.postMessage('seekPlayer', {position: self.getSeekPosition()});
+            }
+        });
+
     }
 
     static get playerMedia()     { return $('.NFPlayer'); }
