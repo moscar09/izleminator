@@ -10,7 +10,7 @@
 }
 
 #izl-cw #chat-history {
-    padding: 20px;
+    padding: 20px 0;
     position: absolute;
     bottom: 55px;
     width: 100%;
@@ -38,8 +38,8 @@
 }
 
 #izl-cw .chat-item {
-    padding: 0;
-    margin: 15px 0;
+    padding: 12px;
+    margin: 3px 0;
     color: #999;
 }
 
