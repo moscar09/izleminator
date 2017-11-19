@@ -11,12 +11,16 @@ window.CadmiumPlayerWrapper = class {
         var self = this;
 
         self.inboundActions = {
+            pause: 0,
             seek: 0,
-            pause: 0
+            start: 0,
         };
 
         communicator.onMessage = function(message) {
             switch(message.data.action) {
+                case "startPlayer":
+                    self.inboundActions.start++;
+                    self.start();
                 case "seekPlayer":
                     self.inboundActions.seek++;
                     self.seek(message.data.position);
@@ -34,7 +38,8 @@ window.CadmiumPlayerWrapper = class {
                 self.inboundActions.seek--;
             } else {
                 var position = self.getSeekPosition();
-                self.communicator.postMessage('seekPlayer', {position: position});
+                self.communicator.postMessage('seekPlayer',  {position: position});
+                self.communicator.postMessage('startPlayer');
             }
         });
 

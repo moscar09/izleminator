@@ -64,7 +64,7 @@ function initializeContent(playerClass) {
             case "seekPlayer":
                 izleminatorClient.sendMessage(data.action + ":" + data.position, IzleminatorClient.MessageTypeEnum.CONTROL);
                 break;
-            case "pausePlayer":
+            default:
                 izleminatorClient.sendMessage(data.action, IzleminatorClient.MessageTypeEnum.CONTROL);
                 break;            
         }
@@ -111,9 +111,10 @@ function sendToContent(message) {
             data.action   = "seekPlayer";
             data.position = controlParams[1];
             break;
-        case "pausePlayer":
-            data.action   = "pausePlayer";
+        default:
+            data.action = controlParams[0];
             break;
     }
+
     window.postMessage(data, '*');
 }
