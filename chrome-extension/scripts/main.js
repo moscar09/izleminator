@@ -62,7 +62,7 @@ function initializeContent(playerClass) {
         var data = playerEvent.data;
         switch(data.action) {
             case "seekPlayer":
-            case "seekAndPlay":
+            case "seekAndStartPlayer":
                 izleminatorClient.sendMessage(data.action + ":" + data.position, IzleminatorClient.MessageTypeEnum.CONTROL);
                 break;
             case "pausePlayer":
@@ -108,7 +108,7 @@ function sendToContent(message) {
 
     switch(controlParams[0]) {
         case "seekPlayer":
-        case "seekAndPlay":
+        case "seekAndStartPlayer":
             data.action   = controlParams[0];
             data.position = controlParams[1];
             break;
