@@ -1,10 +1,12 @@
-package ro.moscar.IzleminatorServer.chat;
+package ro.moscar.IzleminatorServer.chat.room;
 
 import java.io.IOException;
 import java.util.UUID;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Session;
+
+import ro.moscar.IzleminatorServer.chat.IMessage;
 
 public class User {
 	private final String username;

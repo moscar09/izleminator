@@ -17,10 +17,10 @@ import ro.moscar.IzleminatorServer.chat.IMessage;
 import ro.moscar.IzleminatorServer.chat.MessageDecoder;
 import ro.moscar.IzleminatorServer.chat.MessageEncoder;
 import ro.moscar.IzleminatorServer.chat.MessageType;
-import ro.moscar.IzleminatorServer.chat.User;
 import ro.moscar.IzleminatorServer.chat.messages.ControlMessage;
 import ro.moscar.IzleminatorServer.chat.messages.SystemMessage;
 import ro.moscar.IzleminatorServer.chat.room.Room;
+import ro.moscar.IzleminatorServer.chat.room.User;
 
 @ServerEndpoint(value = "/chat/{room}/{username}", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class ChatEndpoint {

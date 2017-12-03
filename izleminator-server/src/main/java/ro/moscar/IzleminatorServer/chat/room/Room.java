@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.websocket.EncodeException;
 
 import ro.moscar.IzleminatorServer.chat.IMessage;
-import ro.moscar.IzleminatorServer.chat.User;
 
 public class Room {
 	private String name;
@@ -21,12 +20,16 @@ public class Room {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public void addUser(User user) {
 		users.put(user.getId(), user);
+	}
+
+	public void removeUser(String userId) {
+		users.remove(userId);
+	}
+
+	public int getUserCount() {
+		return users.size();
 	}
 
 	public void broadcast(IMessage message) {
