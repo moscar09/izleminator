@@ -3,7 +3,7 @@
 
   "name": "Izleminator",
   "description": "Enables a chat client along your video stream",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "content_scripts": [{
     "matches": [
         "http://tatooine.moscar.ro/*",
