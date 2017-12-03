@@ -1,0 +1,9 @@
+{
+  "name": "Izleminator",
+  "version": "0.4.3",
+  "description": "Chat and synchronised streams",
+  "main": "index.js",
+  "repository": "https://github.com/moscar09/izleminator",
+  "author": "Oscar Marginean",
+  "license": "MIT"
+}
