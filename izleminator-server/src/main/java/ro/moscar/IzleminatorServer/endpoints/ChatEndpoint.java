@@ -27,8 +27,6 @@ public class ChatEndpoint {
 	private Room room;
 	private User user;
 	private static Map<String, Room> rooms = new ConcurrentHashMap<String, Room>();
-	private static Map<String, ChatEndpoint> endpoints = new ConcurrentHashMap<String, ChatEndpoint>();
-	private static Map<String, User> users = new ConcurrentHashMap<String, User>();
 
 	@OnOpen
 	public void onOpen(Session session, @PathParam("username") String username, @PathParam("room") String roomName)
@@ -42,12 +40,13 @@ public class ChatEndpoint {
 			rooms.put(roomName, room);
 		}
 
-		endpoints.put(session.getId(), this);
-
-		room.addUser(user);
-		users.put(user.getId(), user);
 		user.sendMessage(new SystemMessage("Welcome " + username));
 		user.sendMessage(new ControlMessage("userid:" + user.getUuid()));
+		room.broadcast(new SystemMessage(username + " has joined."));
+		room.addUser(user);
+
+		System.out.println(String.format("Opening session %s. Room %s has %d users", session.getId(), room.getName(),
+				room.getUserCount()));
 	}
 
 	@OnMessage
@@ -70,8 +69,13 @@ public class ChatEndpoint {
 
 	@OnClose
 	public void onClose(Session session) throws IOException {
-		endpoints.remove(session.getId());
-		System.out.println("Closing session" + session.getId());
+		room.removeUser(user.getId());
+		System.out.println(String.format("Closing session %s. Room %s has %d users", session.getId(), room.getName(),
+				room.getUserCount()));
+
+		if (room.getUserCount() == 0) {
+			rooms.remove(room.getName());
+		}
 	}
 
 	@OnError
