@@ -1,3 +1,1 @@
 language: java
-install: cd izleminator-server/ && ./gradlew init && cd ..
-script: cd izleminator-server/ && ./gradlew check && cd ..
