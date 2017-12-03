@@ -1,6 +1,6 @@
 package ro.moscar.IzleminatorServer.chat;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.UUID;
 
@@ -20,7 +20,7 @@ public class MessageEncoderTest {
 	public void shouldEncodeSystemMessages() {
 		IMessage message = new SystemMessage("System message");
 		MessageEncoder encoder = new MessageEncoder();
-		
+
 		try {
 			String encoded = encoder.encode(message);
 			assertEquals("{\"messageType\":\"system\",\"content\":\"System message\",\"from\":\"System\"}", encoded);
@@ -33,7 +33,7 @@ public class MessageEncoderTest {
 	public void shouldEncodeControlMessages() {
 		IMessage message = new ControlMessage("Control message");
 		MessageEncoder encoder = new MessageEncoder();
-		
+
 		try {
 			String encoded = encoder.encode(message);
 			assertEquals("{\"messageType\":\"control\",\"content\":\"Control message\"}", encoded);
@@ -48,7 +48,7 @@ public class MessageEncoderTest {
 		message.setFrom("user");
 		message.setFromUuid(UUID.randomUUID().toString());
 		MessageEncoder encoder = new MessageEncoder();
-		
+
 		JsonObject json = new JsonObject();
 		json.addProperty("messageType", "chat");
 		json.addProperty("content", message.getContent());

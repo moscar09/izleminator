@@ -8,30 +8,31 @@ import javax.websocket.EndpointConfig;
 
 import com.google.gson.Gson;
 
-import ro.moscar.IzleminatorServer.chat.messages.AbstractMessage;
 import ro.moscar.IzleminatorServer.chat.messages.ChatMessage;
 import ro.moscar.IzleminatorServer.chat.messages.ControlMessage;
 import ro.moscar.IzleminatorServer.chat.messages.HeartbeatMessage;
 
-public class MessageDecoder implements Decoder.Text<AbstractMessage> {
+public class MessageDecoder implements Decoder.Text<IMessage> {
 	private Gson gson = new Gson();
+
 	@Override
 	public void init(EndpointConfig config) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public AbstractMessage decode(String s) throws DecodeException {
+	public IMessage decode(String s) throws DecodeException {
+		@SuppressWarnings("unchecked")
 		Map<String, String> data = gson.fromJson(s, Map.class);
 
-		switch(data.get("messageType").toString()) {
+		switch (data.get("messageType").toString()) {
 		case "control":
 			return new ControlMessage(data.get("content"));
 		case "heartbeat":
