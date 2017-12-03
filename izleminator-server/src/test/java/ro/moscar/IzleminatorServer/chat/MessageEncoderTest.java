@@ -23,7 +23,7 @@ public class MessageEncoderTest {
 
 		try {
 			String encoded = encoder.encode(message);
-			assertEquals("{\"messageType\":\"system\",\"content\":\"System message\",\"from\":\"System\"}", encoded);
+			assertEquals("{\"messagType\":\"system\",\"content\":\"System message\",\"from\":\"System\"}", encoded);
 		} catch (EncodeException e) {
 			e.printStackTrace();
 		}
