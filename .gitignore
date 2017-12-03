@@ -1,5 +1,6 @@
 *.swp
 chrome-extension/scripts/config.js
+chrome-extension.zip
 testing/*
 .DS_Store
 *.class
@@ -7,3 +8,4 @@ izleminator-server/.gradle
 izleminator-server/bin/*
 izleminator-server/build/*
 *.sublime*
+izleminator.pem

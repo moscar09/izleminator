@@ -2,6 +2,7 @@
 window.CadmiumPlayerWrapper = class {
     constructor(communicator) {
         this.videoElement = document.getElementsByTagName('video')[0];
+        this.scrubberBar  = document.getElementsByClassName('scrubber-bar')[0];
         this.communicator = communicator;
 
         var videoPlayer     = netflix.appContext.state.playerApp.getAPI().videoPlayer;
@@ -44,6 +45,7 @@ window.CadmiumPlayerWrapper = class {
         });
 
         this.videoElement.addEventListener("pause", function(e) {
+            console.log(self.getSeekPosition());
             if(self.inboundActions.pause > 0) {
                 self.inboundActions.pause--;
             } else {
@@ -51,13 +53,15 @@ window.CadmiumPlayerWrapper = class {
             }
         });
 
-        this.videoElement.addEventListener("seeking", function(e) {
+        this.scrubberBar.addEventListener("click", function(e) {
+            console.log("seeking " + self.getSeekPosition());
+
             if(self.inboundActions.seek > 0) {
                 self.inboundActions.seek--;
             } else {
                 self.communicator.postMessage('seekPlayer', {position: self.getSeekPosition()});
             }
-        });
+        })
     }
 
     static get playerMedia()     { return $('.NFPlayer'); }
