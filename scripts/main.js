@@ -24,7 +24,6 @@ chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
 });
 
 function checkIsContextReady(playerClass) {
-    console.dir(playerClass);
     if(playerClass.isContextReady()) {
         initializeContent(playerClass);        
     } else {

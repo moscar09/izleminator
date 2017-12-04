@@ -53,10 +53,6 @@ window.TestPlayerWrapper = class {
         return $("#playerWrapper");
     }
 
-    static get includeFilename() {
-        return "test-player-wrapper.js";
-    }
-
     static isContextReady() {
         return true;
     }

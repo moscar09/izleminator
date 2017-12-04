@@ -36,15 +36,25 @@ window.IzleminatorChat = class {
 
         switch(message.messageType) {
             case IzleminatorClient.MessageTypeEnum.CONTROL:
+                let content;
                 var controlParams = message.content.split(":");
                 switch(controlParams[0]) {
                     case "userid":
                         if (typeof self.fromUuid == 'undefined')
                             self.fromUuid = controlParams[1];
                         break;
-                    case "playerSeek":
-                    case "playerPause":
-                    case "playerStart":
+                    case "seekPlayer":
+                        content = message.from + " jumped to " + controlParams[1];
+                        self.appendMessage(content, "system", "System");
+                        break;
+
+                    case "seekAndStartPlayer":
+                        content = message.from + " started playing at " + controlParams[1];
+                        self.appendMessage(content, "system", "System");
+                        break;
+                    case "pausePlayer":
+                        content = message.from + " paused.";
+                        self.appendMessage(content, "system", "System");
                         break;
                 }
                 break;

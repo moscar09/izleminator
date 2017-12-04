@@ -46,7 +46,6 @@ window.CadmiumPlayerWrapper = class {
         });
 
         this.videoElement.addEventListener("pause", function(e) {
-            console.log(self.getSeekPosition());
             if(self.inboundActions.pause > 0) {
                 self.inboundActions.pause--;
             } else {
@@ -55,8 +54,6 @@ window.CadmiumPlayerWrapper = class {
         });
 
         this.scrubberBar.addEventListener("click", function(e) {
-            console.log("seeking " + self.getSeekPosition());
-
             if(self.inboundActions.seek > 0) {
                 self.inboundActions.seek--;
             } else {
@@ -67,7 +64,6 @@ window.CadmiumPlayerWrapper = class {
 
     static get playerMedia()     { return $('.NFPlayer'); }
     static get playerWrapper()   { return $('.NFPlayer'); }
-    static get includeFilename() { return "cadmium-player-wrapper.js"; }
     static isContextReady()      { return this.playerWrapper.length == 1; }
 
     pause() { this.videoPlayer.pause(); }
