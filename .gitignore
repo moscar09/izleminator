@@ -7,3 +7,5 @@ testing/*
 *.class
 *.sublime*
 izleminator.pem
+*.log
+dist.zip

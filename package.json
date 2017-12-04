@@ -1,5 +1,5 @@
 {
-  "name": "Izleminator",
+  "name": "izleminator",
   "version": "0.4.3",
   "description": "Chat and synchronised streams",
   "main": "index.js",
@@ -20,6 +20,7 @@
   },
   "scripts": {
     "build": "webpack --config webpack.dev.js",
-    "build-prod": "webpack --config webpack.production.js"
+    "build-prod": "webpack --config webpack.production.js",
+    "build-release": "yarn build-prod && zip -r dist.zip dist"
   }
 }
