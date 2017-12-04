@@ -1,5 +1,11 @@
 'use strict';
 
+window.$ = window.jQuery = require("jquery");
+require("./izleminator-client.js");
+require("./izleminator-chat.js");
+require ('./playerWrappers/cadmium-player-wrapper.js');
+require('./playerWrappers/test-player-wrapper.js');
+
 var screenName;
 var izlEnabled;
 
@@ -18,6 +24,7 @@ chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
 });
 
 function checkIsContextReady(playerClass) {
+    console.dir(playerClass);
     if(playerClass.isContextReady()) {
         initializeContent(playerClass);        
     } else {
@@ -28,7 +35,7 @@ function checkIsContextReady(playerClass) {
 function initializeContent(playerClass) {
     var roomname  = "test737";
     var izleminatorClient = new IzleminatorClient({
-        websocketUri: socketUri,
+        websocketUri: SOCKET_URI,
         roomname:     roomname,
         username:     screenName
     });
@@ -76,19 +83,9 @@ function initializeContent(playerClass) {
 }
 
 function injectJs(playerClass) {
-    var jqIncluder    = document.createElement('script');
-    jqIncluder.src    = chrome.extension.getURL('scripts/lib/jquery.min.js');
-    jqIncluder.onload = function() {
-        var classIncluder    = document.createElement('script');
-        classIncluder.src    = chrome.extension.getURL('scripts/playerWrappers/' + playerClass.includeFilename);
-        classIncluder.onload = function() {
-            var script = document.createElement('script');
-            script.src = chrome.extension.getURL('scripts/inlined.js');
-            document.body.appendChild(script);
-        }
-        document.body.appendChild(classIncluder);
-    }
-    document.body.appendChild(jqIncluder);
+    var scriptIncluder    = document.createElement('script');
+    scriptIncluder.src    = chrome.extension.getURL('scripts/inlined-bundle.js');
+    document.body.appendChild(scriptIncluder);
 }
 
 function getPlayerClass(host) {

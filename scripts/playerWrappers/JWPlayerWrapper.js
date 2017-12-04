@@ -1,5 +1,5 @@
 'use strict';
-window.JWPlayerWrapper = class {
+class JWPlayerWrapper {
     constructor(_jwPlayer) {
         this.jwPlayer = _jwPlayer;
     }

@@ -1,5 +1,10 @@
 "use strict";
 
+window.$ = window.jQuery = require("jquery");
+require('./playerWrappers/cadmium-player-wrapper.js');
+require('./playerWrappers/test-player-wrapper.js');
+
+
 var izl_communicator = class {
     constructor() {
         var self = this;

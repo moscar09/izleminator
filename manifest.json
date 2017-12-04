@@ -12,14 +12,7 @@
         "https://www.netflix.com/watch/*"
     ],
     "js": [
-        "scripts/lib/jquery.min.js",
-        "scripts/config.js",
-        "scripts/playerWrappers/JWPlayerWrapper.js",
-        "scripts/playerWrappers/cadmium-player-wrapper.js",
-        "scripts/playerWrappers/test-player-wrapper.js",
-        "scripts/izleminator-client.js",
-        "scripts/izleminator-chat.js",
-        "scripts/main.js"
+        "scripts/main-bundle.js"
     ],
     "css": ["style.css"],
     "run_at":"document_end"
@@ -42,11 +35,7 @@
     "storage"
   ],
   "web_accessible_resources": [
-    "scripts/playerWrappers/JWPlayerWrapper.js",
-    "scripts/playerWrappers/cadmium-player-wrapper.js",
-    "scripts/playerWrappers/test-player-wrapper.js",
-    "scripts/lib/jquery.min.js",    
-    "scripts/inlined.js"
+    "scripts/inlined-bundle.js"
   ],
   "externally_connectable": {
     "matches": [

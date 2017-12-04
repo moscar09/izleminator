@@ -58,7 +58,7 @@ window.TestPlayerWrapper = class {
     }
 
     static isContextReady() {
-        return this.playerWrapper.length == 1;
+        return true;
     }
 
     pause() {

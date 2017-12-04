@@ -57,7 +57,7 @@ window.IzleminatorClient = class {
     }
 }
 
-window.IzleminatorClient.MessageTypeEnum = Object.freeze({
+IzleminatorClient.MessageTypeEnum = Object.freeze({
     CHAT:    "chat",
     CONTROL: "control",
     HEARTBEAT: "heartbeat",

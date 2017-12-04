@@ -1,4 +1,5 @@
 'use strict';
+
 window.CadmiumPlayerWrapper = class {
     constructor(communicator) {
         this.videoElement = document.getElementsByTagName('video')[0];
