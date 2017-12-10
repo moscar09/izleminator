@@ -59,7 +59,9 @@ window.CadmiumPlayerWrapper = class {
             } else {
                 self.communicator.postMessage('seekPlayer', {position: self.getSeekPosition()});
             }
-        })
+        });
+
+        this.heartBeat();
     }
 
     static get playerMedia()     { return $('.NFPlayer'); }
@@ -70,4 +72,13 @@ window.CadmiumPlayerWrapper = class {
     start() { this.videoPlayer.play(); }
     getSeekPosition() { return this.videoPlayer.getCurrentTime() }
     seek(position)    { this.videoPlayer.seek(position); }
+
+    heartBeat() {
+        var self = this;
+
+        self.communicator.postMessage('heartbeat', { position: self.getSeekPosition() });
+        setTimeout( function() { self.heartBeat() }, 2000 );
+
+    }
+
 }

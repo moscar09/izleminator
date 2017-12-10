@@ -30,7 +30,6 @@ window.IzleminatorClient = class {
         this.socket.onerror    = this.onErrorCallback;
         var self = this;
         this.socket.onopen     = function () {
-            self.heartBeat();
             self.onOpenCallback();
         };
     }
@@ -40,20 +39,22 @@ window.IzleminatorClient = class {
     }
 
     sendMessage(message, messageType) {
-        this.socket.send(JSON.stringify({
+        var payload = JSON.stringify({
             messageType: messageType,
             content: message
-        }));
+        });
+
+        console.dir(payload);
+        this.socket.send(payload);
     }
 
-    heartBeat() {
+    heartBeat( position ) {
         var self = this;
 
         if(self.socket.readyState === self.socket.CLOSED) {
             return
         }
-        self.sendMessage("HB", IzleminatorClient.MessageTypeEnum.HEARTBEAT);       
-        setTimeout( function() { self.heartBeat() }, 2000 );
+        self.sendMessage("HB:" + position, IzleminatorClient.MessageTypeEnum.HEARTBEAT);
     }
 }
 

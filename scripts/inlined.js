@@ -13,10 +13,7 @@ var izl_communicator = class {
                 return;
             }
 
-            console.dir(playerEvent.data);
-
             self._maybeCallOnMessageCallback(playerEvent);
-
         });
     }
 

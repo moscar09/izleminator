@@ -25,7 +25,7 @@ chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
 
 function checkIsContextReady(playerClass) {
     if(playerClass.isContextReady()) {
-        initializeContent(playerClass);        
+        initializeContent(playerClass);
     } else {
         setTimeout( function() { checkIsContextReady(playerClass) }, 500 );
     }
@@ -49,7 +49,7 @@ function initializeContent(playerClass) {
     izleminatorClient.onOpen    = function(e) { chatWindow.onOpenCallback(e, chatWindow); }
     izleminatorClient.onClose   = function(e) { chatWindow.onCloseCallback(e, chatWindow); }
     izleminatorClient.onError   = function(e) { chatWindow.onErrorCallback(e, chatWindow); }
-    izleminatorClient.onMessage = function(e) { 
+    izleminatorClient.onMessage = function(e) {
         chatWindow.onMessageCallback(e, chatWindow);
         var message = JSON.parse(event.data);
         if (message.messageType != IzleminatorClient.MessageTypeEnum.CONTROL) return;
@@ -73,7 +73,10 @@ function initializeContent(playerClass) {
                 break;
             case "pausePlayer":
                 izleminatorClient.sendMessage(data.action, IzleminatorClient.MessageTypeEnum.CONTROL);
-                break;            
+                break;
+            case "heartbeat":
+            izleminatorClient.heartBeat(data.position);
+                break;
         }
     });
 

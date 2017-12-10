@@ -30,7 +30,7 @@ window.TestPlayerWrapper = class {
             if(self.inboundActions.pause > 0) {
                 self.inboundActions.pause--;
             } else {
-                self.communicator.postMessage('pausePlayer');                
+                self.communicator.postMessage('pausePlayer');
             }
         });
 
