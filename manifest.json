@@ -3,7 +3,7 @@
 
   "name": "Izleminator",
   "description": "Enables a chat client along your video stream",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "content_scripts": [{
     "matches": [
         "http://tatooine.moscar.ro/*",
@@ -22,7 +22,7 @@
     "default_icon": "icons/icon64.png",
     "default_popup": "popup.html",
     "default_title": "Izleminate!",
-    "icons": { 
+    "icons": {
           "32": "icons/icon32.png",
           "48": "icons/icon48.png",
           "64": "icons/icon64.png",

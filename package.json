@@ -1,6 +1,6 @@
 {
   "name": "izleminator",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Chat and synchronised streams",
   "main": "index.js",
   "repository": "https://github.com/moscar09/izleminator",
