@@ -5,6 +5,7 @@ require("./izleminator-client.js");
 require("./izleminator-chat.js");
 require ('./playerWrappers/cadmium-player-wrapper.js');
 require('./playerWrappers/test-player-wrapper.js');
+require ('./playerWrappers/video-js-wrapper.js');
 
 var screenName;
 var izlEnabled;
@@ -41,8 +42,7 @@ function initializeContent(playerClass) {
 
 
     var chatWindow = new IzleminatorChat({
-        playerMedia:   playerClass.playerMedia,
-        playerWrapper: playerClass.playerWrapper,
+        playerClass:   playerClass,
         chatClient:    izleminatorClient
     });
 
@@ -96,6 +96,8 @@ function getPlayerClass(host) {
             return TestPlayerWrapper;
         case "www.netflix.com":
             return CadmiumPlayerWrapper;
+        case "uptostream.com": case "720pizle.com":
+            return VideoJsWrapper;
     }
 }
 

@@ -6,16 +6,20 @@
   "version": "0.5.0",
   "content_scripts": [{
     "matches": [
-        "http://tatooine.moscar.ro/*",
+        "http://720pizle.com/*",
         "http://dizimag2.co/*",
         "http://dizimag3.co/*",
-        "https://www.netflix.com/watch/*"
+        "http://tatooine.moscar.ro/*",
+        "https://www.netflix.com/watch/*",
+        "https://uptostream.com/*"
     ],
     "js": [
         "scripts/main-bundle.js"
     ],
     "css": ["style.css"],
-    "run_at":"document_end"
+    "run_at":"document_end",
+    "all_frames": true
+
   }],
 
   "browser_action": {

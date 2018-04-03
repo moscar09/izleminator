@@ -2,17 +2,17 @@
 
 window.IzleminatorChat = class {
     constructor(args) {
-        this.playerMedia   = args.playerMedia;
-        this.playerWrapper = args.playerWrapper;
+        this.playerMedia   = playerClass.playerMedia;
+        this.playerWrapper = playerClass.playerWrapper;
         this.chatClient    = args.chatClient;
 
-        $(this.playerMedia).css({
-            'width': '80%',
-            'float': 'left'
-        });
+        var chat_html = "<div id='izl-cw'><div id='chat-history'></div><textarea id='chatbox' rows='3'></textarea></div>";
+        var chat_element = new DOMParser().parseFromString(chat_html, 'text/html').body.childNodes[0];
 
-        $(this.playerWrapper).addClass('izl_izleminated');
-        $(this.playerMedia).after("<div id='izl-cw'><div id='chat-history'></div><textarea id='chatbox' rows='3'/></div>");
+        playerClass.izleminate({
+            wrapper_class: 'izl_izleminated',
+            chat_html: chat_element,
+        });
 
         var self = this;
     }
@@ -75,7 +75,11 @@ window.IzleminatorChat = class {
         self.appendMessage(message, "system", "system");
     }
 
-    onErrorCallback(event, self) {}
+    onErrorCallback(event, self) {
+        var message = "There was an error.";
+        message += event.reason ? event.reason : "";
+        self.appendMessage(message, "system", "system");
+    }
 
     appendMessage(message, owner, screenName) {
         $('#chat-history').append( '<p class="chat-item owner-' + owner + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>');
