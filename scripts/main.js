@@ -8,40 +8,56 @@ require('./playerWrappers/test-player-wrapper.js');
 require ('./playerWrappers/video-js-wrapper.js');
 
 var screenName;
-var izlEnabled;
+var checksDone = 0;
 
-chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        if (request.izleminate != true) {
+var url = new URL(window.location.toString());
+
+if(url.searchParams.get("izl_room") != undefined) {
+    if (window === top ) {
+        var iframes = document.getElementsByTagName('iframe');
+        console.dir(iframes);
+        for (var i = 0; i < iframes.length; i++) {
+            var iframe = iframes[i];
+            var iframe_url = new URL(iframe.src);
+            iframe_url.searchParams.set("izl_room", url.searchParams.get("izl_room"));
+            iframe.src = iframe_url.toString();
+        }
+    }
+
+    chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
+        initialize({screenName: items.izl_screen_name });
+    });
+
+} else {
+    chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
+        if (request.izleminate != true || chrome.runtime.id != sender.id) {
             return;
         }
 
-        screenName = request.screen_name;
-        var playerClass  = getPlayerClass(window.location.host);
-        window.playerClass = playerClass;
-
-        checkIsContextReady(playerClass);
+        initialize({screenName: request.screen_name });
     });
+}
 
-// chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
-//     screenName = items.izl_screen_name;
-//     izlEnabled = items.izl_enabled;
+function initialize(args) {
+    screenName = args.screenName;
+    var playerClass = getPlayerClass(window.location.host);
+    if (playerClass == undefined) {
+        return;
+    }
+    window.playerClass = playerClass;
 
-//     if (izlEnabled != true) {
-//         return;
-//     }
-
-//     var playerClass  = getPlayerClass(window.location.host);
-//     window.playerClass = playerClass;
-
-//     checkIsContextReady(playerClass);
-// });
+    checkIsContextReady(playerClass);
+}
 
 function checkIsContextReady(playerClass) {
+    checksDone++;
+    console.log("checking");
     if(playerClass.isContextReady()) {
         initializeContent(playerClass);
     } else {
-        setTimeout( function() { checkIsContextReady(playerClass) }, 500 );
+        if(checksDone < 10) {
+            setTimeout( function() { checkIsContextReady(playerClass) }, 500 );
+        }
     }
 }
 
