@@ -6,21 +6,24 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.getElementById("izl-submit").addEventListener('click', function() {
-    var isEnabled  = document.getElementById("izl-enable").checked;
     var screenName = document.getElementById("izl-screen-name").value;
 
+    if (screenName == '') {
+      screenName = 'Anonymous';
+    }
+
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      var current_url = new URL(tabs[0].url);
+      current_url.searchParams.set("izl_room", "test737");
+
+      document.getElementById("izl-url").value = current_url.toString();
       chrome.tabs.sendMessage(tabs[0].id, {
         izleminate: true,
         screen_name: screenName
       });
     });
 
-    if (screenName == '') {
-      screenName = 'Anonymous';
-    }
     chrome.storage.local.set({
-      "izl_enabled"    : isEnabled,
       "izl_screen_name": screenName,
    });
   });

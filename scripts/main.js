@@ -15,7 +15,6 @@ var url = new URL(window.location.toString());
 if(url.searchParams.get("izl_room") != undefined) {
     if (window === top ) {
         var iframes = document.getElementsByTagName('iframe');
-        console.dir(iframes);
         for (var i = 0; i < iframes.length; i++) {
             var iframe = iframes[i];
             var iframe_url = new URL(iframe.src);
@@ -24,7 +23,7 @@ if(url.searchParams.get("izl_room") != undefined) {
         }
     }
 
-    chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
+    chrome.storage.local.get(["izl_screen_name"], function(items) {
         initialize({screenName: items.izl_screen_name });
     });
 
@@ -51,11 +50,10 @@ function initialize(args) {
 
 function checkIsContextReady(playerClass) {
     checksDone++;
-    console.log("checking");
     if(playerClass.isContextReady()) {
         initializeContent(playerClass);
     } else {
-        if(checksDone < 10) {
+        if(checksDone < 50) {
             setTimeout( function() { checkIsContextReady(playerClass) }, 500 );
         }
     }
