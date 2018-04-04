@@ -10,19 +10,32 @@ require ('./playerWrappers/video-js-wrapper.js');
 var screenName;
 var izlEnabled;
 
-chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
-    screenName = items.izl_screen_name;
-    izlEnabled = items.izl_enabled;
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.izleminate != true) {
+            return;
+        }
 
-    if (izlEnabled != true) {
-        return;
-    }
+        screenName = request.screen_name;
+        var playerClass  = getPlayerClass(window.location.host);
+        window.playerClass = playerClass;
 
-    var playerClass  = getPlayerClass(window.location.host);
-    window.playerClass = playerClass;
+        checkIsContextReady(playerClass);
+    });
 
-    checkIsContextReady(playerClass);
-});
+// chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
+//     screenName = items.izl_screen_name;
+//     izlEnabled = items.izl_enabled;
+
+//     if (izlEnabled != true) {
+//         return;
+//     }
+
+//     var playerClass  = getPlayerClass(window.location.host);
+//     window.playerClass = playerClass;
+
+//     checkIsContextReady(playerClass);
+// });
 
 function checkIsContextReady(playerClass) {
     if(playerClass.isContextReady()) {

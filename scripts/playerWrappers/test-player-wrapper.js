@@ -1,7 +1,7 @@
 'use strict';
 window.TestPlayerWrapper = class {
     constructor(communicator) {
-        this.player       = $("#playerWrapper");
+        this.player       = this.constructor.playerWrapper;
         this.communicator = communicator;
 
         var pauseObj = document.getElementById("pause");
@@ -45,28 +45,29 @@ window.TestPlayerWrapper = class {
 
     }
 
-    static get playerMedia() {
-        return $("#playerContent");
+    static get playerMedia()   { return document.getElementById("playerContent"); }
+    static get playerWrapper() { return document.getElementById("playerWrapper"); }
+    static isContextReady()    { return document.getElementById("playerContent") != undefined; }
+
+    static izleminate(args) {
+        this.playerMedia.style.width    = '80%';
+        this.playerMedia.style.float    = 'left';
+
+        this.playerWrapper.className += args.wrapper_class;
+        this.playerMedia.parentNode.insertBefore(args.chat_html, this.playerMedia.nextSibling);
     }
 
-    static get playerWrapper() {
-        return $("#playerWrapper");
-    }
-
-    static isContextReady() {
-        return true;
-    }
 
     pause() {
-        this.player.find("#state").html("Pausing");
+        this.player.getElementById("state").innerHTML = "Pausing";
     }
 
     seek(position) {
-        this.player.find("#state").html("Seeking to positon " + position);
+        this.player.getElementById("state").innerHTML = "Seeking to positon " + position;
     }
 
     start() {
-        this.player.find("#state").html("Playing");
+        this.player.getElementById("state").innerHTML = "Playing";
     }
 
 }

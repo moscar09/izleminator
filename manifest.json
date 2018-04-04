@@ -3,23 +3,21 @@
 
   "name": "Izleminator",
   "description": "Enables a chat client along your video stream",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "content_scripts": [{
     "matches": [
-        "http://720pizle.com/*",
-        "http://dizimag2.co/*",
-        "http://dizimag3.co/*",
-        "http://tatooine.moscar.ro/*",
-        "https://www.netflix.com/watch/*",
-        "https://uptostream.com/*"
+        "<all_urls>"
+        // "http://720pizle.com/*",
+        // "http://dizimag2.co/*",
+        // "http://dizimag3.co/*",
+        // "http://tatooine.moscar.ro/*",
+        // "https://www.netflix.com/watch/*",
+        // "https://uptostream.com/*"
     ],
-    "js": [
-        "scripts/main-bundle.js"
-    ],
+    "js":  [ "scripts/main-bundle.js"],
     "css": ["style.css"],
     "run_at":"document_end",
     "all_frames": true
-
   }],
 
   "browser_action": {
