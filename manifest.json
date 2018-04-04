@@ -7,12 +7,6 @@
   "content_scripts": [{
     "matches": [
         "<all_urls>"
-        // "http://720pizle.com/*",
-        // "http://dizimag2.co/*",
-        // "http://dizimag3.co/*",
-        // "http://tatooine.moscar.ro/*",
-        // "https://www.netflix.com/watch/*",
-        // "https://uptostream.com/*"
     ],
     "js":  [ "scripts/main-bundle.js"],
     "css": ["style.css"],
