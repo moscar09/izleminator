@@ -13,13 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      var room_id     = Math.random().toString(36).substring(2);
       var current_url = new URL(tabs[0].url);
-      current_url.searchParams.set("izl_room", "test737");
+      current_url.searchParams.set("izl_room", room_id);
 
       document.getElementById("izl-url").value = current_url.toString();
       chrome.tabs.sendMessage(tabs[0].id, {
         izleminate: true,
-        screen_name: screenName
+        screen_name: screenName,
+        room_name: room_id
       });
     });
 

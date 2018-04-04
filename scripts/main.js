@@ -8,17 +8,19 @@ require('./playerWrappers/test-player-wrapper.js');
 require ('./playerWrappers/video-js-wrapper.js');
 
 var screenName;
+var roomname;
 var checksDone = 0;
 
 var url = new URL(window.location.toString());
 
 if(url.searchParams.get("izl_room") != undefined) {
+    roomname = url.searchParams.get("izl_room");
     if (window === top ) {
         var iframes = document.getElementsByTagName('iframe');
         for (var i = 0; i < iframes.length; i++) {
             var iframe = iframes[i];
             var iframe_url = new URL(iframe.src);
-            iframe_url.searchParams.set("izl_room", url.searchParams.get("izl_room"));
+            iframe_url.searchParams.set("izl_room", roomname);
             iframe.src = iframe_url.toString();
         }
     }
@@ -33,6 +35,7 @@ if(url.searchParams.get("izl_room") != undefined) {
             return;
         }
 
+        roomname = request.room_name;
         initialize({screenName: request.screen_name });
     });
 }
@@ -60,7 +63,6 @@ function checkIsContextReady(playerClass) {
 }
 
 function initializeContent(playerClass) {
-    var roomname  = "test737";
     var izleminatorClient = new IzleminatorClient({
         websocketUri: SOCKET_URI,
         roomname:     roomname,
