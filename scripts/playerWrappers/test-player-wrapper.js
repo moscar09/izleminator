@@ -1,7 +1,7 @@
 'use strict';
 window.TestPlayerWrapper = class {
     constructor(communicator) {
-        this.player       = this.constructor.playerWrapper;
+        this.player       = this.constructor.playerMedia;
         this.communicator = communicator;
 
         var pauseObj = document.getElementById("pause");
@@ -14,6 +14,7 @@ window.TestPlayerWrapper = class {
         };
 
         communicator.onMessage = function(message) {
+            console.dir(message);
             switch(message.data.action) {
                 case "seekPlayer":
                     self.inboundActions.seek++;
@@ -39,7 +40,7 @@ window.TestPlayerWrapper = class {
                 self.inboundActions.seek--;
             } else {
                 var position = startObj.getAttribute("data-position");
-                self.communicator.postMessage('seekPlayer', {position: position});
+                self.communicator.postMessage('seekAndStartPlayer', {position: position});
             }
         });
 
@@ -59,15 +60,15 @@ window.TestPlayerWrapper = class {
 
 
     pause() {
-        this.player.getElementById("state").innerHTML = "Pausing";
+        document.getElementById("state").innerHTML = "Pausing";
     }
 
     seek(position) {
-        this.player.getElementById("state").innerHTML = "Seeking to positon " + position;
+        document.getElementById("state").innerHTML = "Seeking to positon " + position;
     }
 
     start() {
-        this.player.getElementById("state").innerHTML = "Playing";
+        document.getElementById("state").innerHTML = "Playing";
     }
 
 }
