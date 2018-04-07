@@ -26,6 +26,6 @@ module.exports = {
             {from:'./popup.html',to:'dist/popup.html'},
             {from:'./style.css',to:'dist/style.css'} ,
             {from:'./icons',to:'dist/icons'} ,
-        ]), 
+        ]),
 	]
 };

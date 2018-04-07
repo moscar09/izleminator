@@ -4,6 +4,7 @@
   "name": "Izleminator",
   "description": "Enables a chat client along your video stream",
   "version": "0.6.0",
+
   "content_scripts": [{
     "matches": [
         "<all_urls>"
@@ -13,7 +14,9 @@
     "run_at":"document_end",
     "all_frames": true
   }],
-
+  "web_accessible_resources": [
+    "scripts/inlined-bundle.js"
+  ],
   "browser_action": {
     "default_icon": "icons/icon64.png",
     "default_popup": "popup.html",
@@ -29,15 +32,5 @@
   "permissions": [
     "tabs",
     "storage"
-  ],
-  "web_accessible_resources": [
-    "scripts/inlined-bundle.js"
-  ],
-  "externally_connectable": {
-    "matches": [
-        "http://tatooine.moscar.ro/*",
-        "http://dizimag2.co/*",
-        "http://dizimag3.co/*"
-    ]
-  }
+  ]
 }

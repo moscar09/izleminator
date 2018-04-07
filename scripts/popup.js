@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+  var version = chrome.runtime.getManifest().version;
+  version += IS_DEV ? "-dev" : "";
+  document.getElementById("version").innerHTML = version;
+
   chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
     document.getElementById("izl-screen-name").value = items.izl_screen_name;
     document.getElementById("izl-enable").checked    = items.izl_enabled == true;

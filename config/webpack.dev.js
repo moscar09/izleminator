@@ -7,6 +7,7 @@ module.exports = merge(common, {
 	plugins: [
 		new webpack.DefinePlugin({
 			SOCKET_URI: JSON.stringify(config.socketUri),
+			IS_DEV: JSON.stringify(config.isDev)
 		}),
 	]
 });

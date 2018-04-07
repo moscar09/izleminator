@@ -12,7 +12,7 @@
         margin: 10px 0;
       }
 
-      label {
+      label, #version {
         font-weight: bold;
         width:40%;
         float: left;
@@ -30,6 +30,12 @@
       #izl-submit {
         float: right;
       }
+
+      #version {
+        margin: 0;
+        font-weight: normal;
+        color: #bbb;
+      }
     </style>
     <script src="scripts/popup-bundle.js"></script>
   </head>
@@ -44,6 +50,7 @@
         <input type="text" id="izl-url" name="izl-url" value="">
       </div>
       <div class="form-row">
+        <p id="version"></p>
         <input id="izl-submit" type="submit" name="submit" value="Izleminate!">
       </div>
     </div>
