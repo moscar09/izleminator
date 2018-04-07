@@ -1,6 +1,6 @@
 *.swp
 dist/*
-config/*
+config/config*
 node_modules/*
 testing/*
 .DS_Store
