@@ -18,14 +18,14 @@ window.IzleminatorChat = class {
     }
 
     onOpenCallback(event, self) {
-        $("#izl-cw #chatbox").keydown(function(e){
+        document.querySelector("#izl-cw #chatbox").addEventListener("keydown", function(e){
             if(e.keyCode == 13) {
                 e.preventDefault();
-                var message = $(this).val();
+                var message = this.value;
                 if (message == '') return;
 
                 self.chatClient.sendMessage(message, IzleminatorClient.MessageTypeEnum.CHAT);
-                $(this).val('');
+                this.value = '';
             }
         e.stopPropagation();
         });
@@ -82,6 +82,6 @@ window.IzleminatorChat = class {
     }
 
     appendMessage(message, owner, screenName) {
-        $('#chat-history').append( '<p class="chat-item owner-' + owner + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>');
+        document.getElementById("chat-history").innerHTML += '<p class="chat-item owner-' + owner + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>';
     }
 }

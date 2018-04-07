@@ -1,6 +1,5 @@
 'use strict';
 
-window.$ = window.jQuery = require("jquery");
 require("./izleminator-client.js");
 require("./izleminator-chat.js");
 require ('./playerWrappers/cadmium-player-wrapper.js');

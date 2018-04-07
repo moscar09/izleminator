@@ -4,7 +4,6 @@ require('./playerWrappers/cadmium-player-wrapper.js');
 require('./playerWrappers/test-player-wrapper.js');
 require('./playerWrappers/video-js-wrapper.js');
 
-
 var izl_communicator = class {
     constructor() {
         var self = this;
