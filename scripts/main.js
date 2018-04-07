@@ -79,13 +79,14 @@ function initializeContent(playerClass) {
     izleminatorClient.onError   = function(e) { chatWindow.onErrorCallback(e); }
     izleminatorClient.onMessage = function(e) {
         chatWindow.onMessageCallback(e);
-        var message = JSON.parse(event.data);
+        var message = JSON.parse(e.data);
         if (message.messageType != IzleminatorClient.MessageTypeEnum.CONTROL) return;
-        if (message.fromUuid == chatWindow.fromUuid ) return;
+        if (message.fromUuid == chatWindow.userUuid ) return;
 
         sendToContent(message);
     }
 
+    injectJs(playerClass);
     izleminatorClient.open();
 
     window.addEventListener("message", function(playerEvent) {
@@ -107,9 +108,6 @@ function initializeContent(playerClass) {
                 break;
         }
     });
-
-    injectJs(playerClass);
-
 }
 
 function injectJs(playerClass) {
