@@ -2,15 +2,27 @@
 
 window.CadmiumPlayerWrapper = class {
     constructor(communicator) {
-        this.videoElement = document.getElementsByTagName('video')[0];
-        this.scrubberBar  = document.getElementsByClassName('scrubber-bar')[0];
         this.communicator = communicator;
+        this.scrubberBar  = document.getElementsByClassName('scrubber-bar')[0];
+        // maybe getElement()
 
-        var videoPlayer     = netflix.appContext.state.playerApp.getAPI().videoPlayer;
-        var playerSessionId = videoPlayer.getAllPlayerSessionIds()[0];
-        this.videoPlayer    = videoPlayer.getVideoPlayerBySessionId(playerSessionId);
+        this.videoElement = document.getElementsByTagName('video')[0];
 
         var self = this;
+
+
+        var observer = new MutationObserver(function(mutationsList) {
+            for(var mutation of mutationsList) {
+                if(mutation.type == 'attributes' && mutation.attributeName == 'src') {
+                    self.videoElement = document.getElementsByTagName('video')[0];
+                    self.addEventListeners();
+                    this.disconnect();
+                    this.observe(self.videoElement, {attributes: true, characterData: true});
+                }
+            }
+        });
+
+        observer.observe(this.videoElement, {attributes: true, characterData: true});
 
         self.inboundActions = {
             seek: 0,
@@ -35,6 +47,27 @@ window.CadmiumPlayerWrapper = class {
                     break;
             }
         }
+
+        this.addEventListeners();
+    }
+
+    static get playerMedia()     { return document.getElementsByClassName('NFPlayer')[0]; }
+    static get playerWrapper()   { return document.getElementsByClassName('NFPlayer')[0]; }
+    static isContextReady()      { return this.playerWrapper != undefined; }
+
+    static izleminate(args) {
+        this.playerMedia.style.width    = '80%';
+        this.playerMedia.style.float    = 'left';
+
+        this.playerWrapper.className += args.wrapper_class;
+        this.playerMedia.parentNode.insertBefore(args.chat_html, this.playerMedia.nextSibling);
+    }
+
+    addEventListeners() {
+        var self = this;
+        var videoPlayer     = netflix.appContext.state.playerApp.getAPI().videoPlayer;
+        var playerSessionId = videoPlayer.getAllPlayerSessionIds()[0];
+        this.videoPlayer    = videoPlayer.getVideoPlayerBySessionId(playerSessionId);
 
         this.videoElement.addEventListener("play", function(e) {
             if (self.inboundActions.seekAndPlay > 0) {
@@ -62,18 +95,6 @@ window.CadmiumPlayerWrapper = class {
         });
 
         this.heartBeat();
-    }
-
-    static get playerMedia()     { return document.getElementsByClassName('NFPlayer')[0]; }
-    static get playerWrapper()   { return document.getElementsByClassName('NFPlayer')[0]; }
-    static isContextReady()      { return this.playerWrapper != undefined; }
-
-    static izleminate(args) {
-        this.playerMedia.style.width    = '80%';
-        this.playerMedia.style.float    = 'left';
-
-        this.playerWrapper.className += args.wrapper_class;
-        this.playerMedia.parentNode.insertBefore(args.chat_html, this.playerMedia.nextSibling);
     }
 
     pause() { this.videoPlayer.pause(); }

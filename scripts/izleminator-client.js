@@ -44,7 +44,9 @@ window.IzleminatorClient = class {
             content: message
         });
 
-        console.dir(payload);
+        if (messageType != IzleminatorClient.MessageTypeEnum.HEARTBEAT){
+            console.dir(payload);
+        }
         this.socket.send(payload);
     }
 
