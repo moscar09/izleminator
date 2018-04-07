@@ -74,9 +74,9 @@ function initializeContent(playerClass) {
         chatClient:    izleminatorClient
     });
 
-    izleminatorClient.onOpen    = function(e) { chatWindow.onOpenCallback(e, chatWindow); }
-    izleminatorClient.onClose   = function(e) { chatWindow.onCloseCallback(e, chatWindow); }
-    izleminatorClient.onError   = function(e) { chatWindow.onErrorCallback(e, chatWindow); }
+    izleminatorClient.onOpen    = function(e) { chatWindow.onOpenCallback(e); }
+    izleminatorClient.onClose   = function(e) { chatWindow.onCloseCallback(e); }
+    izleminatorClient.onError   = function(e) { chatWindow.onErrorCallback(e); }
     izleminatorClient.onMessage = function(e) {
         chatWindow.onMessageCallback(e);
         var message = JSON.parse(event.data);

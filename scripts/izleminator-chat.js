@@ -17,7 +17,8 @@ window.IzleminatorChat = class {
         });
     }
 
-    onOpenCallback(event, self) {
+    onOpenCallback(event) {
+        var self = this;
         document.querySelector("#izl-cw #chatbox").addEventListener("keydown", function(e){
             if(e.keyCode == 13) {
                 e.preventDefault();
@@ -62,16 +63,16 @@ window.IzleminatorChat = class {
 
     }
 
-    onCloseCallback(event, self) {
+    onCloseCallback(event) {
         var message = "Connection closed.";
         message += event.reason ? event.reason : "";
-        self.displaySystemMessage(message);
+        this.displaySystemMessage(message);
     }
 
-    onErrorCallback(event, self) {
+    onErrorCallback(event) {
         var message = "There was an error.";
         message += event.reason ? event.reason : "";
-        self.displaySystemMessage(message);
+        this.displaySystemMessage(message);
     }
 
     displaySystemMessage(content) {
