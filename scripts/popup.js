@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
   chrome.storage.local.get(["izl_enabled", "izl_screen_name"], function(items) {
     document.getElementById("izl-screen-name").value = items.izl_screen_name;
     document.getElementById("izl-enable").checked    = items.izl_enabled == true;
-    console.log("DOMContentLoaded");
   });
 
   document.getElementById("izl-submit").addEventListener('click', function() {

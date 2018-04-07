@@ -14,7 +14,6 @@ window.TestPlayerWrapper = class {
         };
 
         communicator.onMessage = function(message) {
-            console.dir(message);
             switch(message.data.action) {
                 case "seekPlayer":
                     self.inboundActions.seek++;
@@ -37,7 +36,7 @@ window.TestPlayerWrapper = class {
 
         startObj.addEventListener("click", function(){
             if(self.inboundActions.seek > 0) {
-                self.inboundActions.seek--;
+                seclf.inboundActions.seek--;
             } else {
                 var position = startObj.getAttribute("data-position");
                 self.communicator.postMessage('seekAndStartPlayer', {position: position});

@@ -13,8 +13,6 @@ window.IzleminatorChat = class {
             wrapper_class: 'izl_izleminated',
             chat_html: chat_element,
         });
-
-        var self = this;
     }
 
     onOpenCallback(event, self) {
@@ -27,7 +25,7 @@ window.IzleminatorChat = class {
                 self.chatClient.sendMessage(message, IzleminatorClient.MessageTypeEnum.CHAT);
                 this.value = '';
             }
-        e.stopPropagation();
+            e.stopPropagation();
         });
     }
 
@@ -36,7 +34,6 @@ window.IzleminatorChat = class {
 
         switch(message.messageType) {
             case IzleminatorClient.MessageTypeEnum.CONTROL:
-                let content;
                 var controlParams = message.content.split(":");
                 switch(controlParams[0]) {
                     case "userid":
@@ -44,26 +41,21 @@ window.IzleminatorChat = class {
                             self.fromUuid = controlParams[1];
                         break;
                     case "seekPlayer":
-                        content = message.from + " jumped to " + controlParams[1];
-                        self.appendMessage(content, "system", "System");
+                        self.displaySystemMessage(`${message.from} jumped to ${controlParams[1]}.`);
                         break;
-
                     case "seekAndStartPlayer":
-                        content = message.from + " started playing at " + controlParams[1];
-                        self.appendMessage(content, "system", "System");
+                        self.displaySystemMessage(`${message.from} started playing at ${controlParams[1]}.`);
                         break;
                     case "pausePlayer":
-                        content = message.from + " paused.";
-                        self.appendMessage(content, "system", "System");
+                        self.displaySystemMessage(`${message.from} paused.`);
                         break;
                 }
                 break;
             case IzleminatorClient.MessageTypeEnum.SYSTEM:
-                self.appendMessage(message.content, "system", message.from);
+                self.displaySystemMessage(message.content);
                 break;
             case IzleminatorClient.MessageTypeEnum.CHAT:
-            var messageOwner = message.fromUuid == self.fromUuid ? "user" : "world";
-                self.appendMessage(message.content, messageOwner, message.from);
+                self.displayUserMessage(message);
                 break;
         }
 
@@ -72,16 +64,21 @@ window.IzleminatorChat = class {
     onCloseCallback(event, self) {
         var message = "Connection closed.";
         message += event.reason ? event.reason : "";
-        self.appendMessage(message, "system", "system");
+        self.displaySystemMessage(message);
     }
 
     onErrorCallback(event, self) {
         var message = "There was an error.";
         message += event.reason ? event.reason : "";
-        self.appendMessage(message, "system", "system");
+        self.displaySystemMessage(message);
     }
 
-    appendMessage(message, owner, screenName) {
-        document.getElementById("chat-history").innerHTML += '<p class="chat-item owner-' + owner + '"><span class="screen-name">' + screenName + ':</span>' + message + '</p>';
+    displaySystemMessage(content) {
+        document.getElementById("chat-history").innerHTML += '<p class="chat-item owner-system">' + content + '</p>';
+    }
+
+    displayUserMessage(message) {
+        var messageOwner = message.fromUuid == self.fromUuid ? "user" : "world";
+        document.getElementById("chat-history").innerHTML += '<p class="chat-item owner-' + messageOwner + '"><span class="screen-name">' + message.from + ':</span>' + message.content + '</p>';
     }
 }
