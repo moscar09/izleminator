@@ -78,7 +78,7 @@ function initializeContent(playerClass) {
     izleminatorClient.onClose   = function(e) { chatWindow.onCloseCallback(e, chatWindow); }
     izleminatorClient.onError   = function(e) { chatWindow.onErrorCallback(e, chatWindow); }
     izleminatorClient.onMessage = function(e) {
-        chatWindow.onMessageCallback(e, chatWindow);
+        chatWindow.onMessageCallback(e);
         var message = JSON.parse(event.data);
         if (message.messageType != IzleminatorClient.MessageTypeEnum.CONTROL) return;
         if (message.fromUuid == chatWindow.fromUuid ) return;

@@ -53,7 +53,10 @@
 
 #izl-cw .chat-item .screen-name {
   font-weight: bold;
-  margin-right: 5px;
+}
+
+#izl-cw .chat-item p {
+    margin: 7px 0;
 }
 
 #izl-cw .chat-item.owner-world {
