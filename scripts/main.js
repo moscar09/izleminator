@@ -103,8 +103,11 @@ function initializeContent(playerClass) {
             case "pausePlayer":
                 izleminatorClient.sendMessage(data.action, IzleminatorClient.MessageTypeEnum.CONTROL);
                 break;
+            case "nextEpisode":
+                izleminatorClient.sendMessage(data.action + ":" + data.episode_id, IzleminatorClient.MessageTypeEnum.CONTROL);
+                break;
             case "heartbeat":
-            izleminatorClient.heartBeat(data.position);
+                izleminatorClient.heartBeat(data.position);
                 break;
         }
     });

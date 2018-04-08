@@ -10,13 +10,13 @@ window.CadmiumPlayerWrapper = class {
 
         var self = this;
 
-
         var observer = new MutationObserver(function(mutationsList) {
             for(var mutation of mutationsList) {
                 if(mutation.type == 'attributes' && mutation.attributeName == 'src') {
                     self.videoElement = document.getElementsByTagName('video')[0];
                     self.addEventListeners();
                     this.disconnect();
+                    self.communicator.postMessage('nextEpisode', {episode_id: self.videoPlayer.getElement().id});
                     this.observe(self.videoElement, {attributes: true, characterData: true});
                 }
             }
