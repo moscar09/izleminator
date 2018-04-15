@@ -19,6 +19,7 @@ if(url.searchParams.get("izl_room") != undefined) {
         for (var i = 0; i < iframes.length; i++) {
             var iframe = iframes[i];
             var iframe_url = new URL(iframe.src);
+            console.dir(iframe_url);
             iframe_url.searchParams.set("izl_room", roomname);
             iframe.src = iframe_url.toString();
         }
@@ -148,6 +149,8 @@ function getPlayerClass(host) {
         case "www.netflix.com":
             return CadmiumPlayerWrapper;
         case "uptostream.com": case "720pizle.com":
+            return VideoJsWrapper;
+        default:
             return VideoJsWrapper;
     }
 }

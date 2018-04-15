@@ -49,5 +49,7 @@ function getPlayerClass(host) {
             return CadmiumPlayerWrapper;
         case "uptostream.com": case "720pizle.com":
             return VideoJsWrapper;
+        default:
+            return VideoJsWrapper;
     }
 }

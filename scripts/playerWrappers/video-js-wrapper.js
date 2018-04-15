@@ -49,10 +49,20 @@ window.VideoJsWrapper = class {
             }
         };
 
+        this.videoPlayer.onseeked = function(e) {
+            console.log("Caught seeking");
+            if (self.inboundActions.seek > 0) {
+                self.inboundActions.seek--;
+            } else {
+                var position = self.getSeekPosition();
+                self.communicator.postMessage('seekPlayer', {position: position});
+            }
+        }
+
         this.heartBeat();
     }
 
-    static get playerMedia()     { return document.getElementById('player_html5_api'); }
+    static get playerMedia()     { return document.getElementsByClassName('vjs-tech')[0]; }
     static get playerWrapper()   { return document.getElementsByClassName('video-js')[0]; }
     static get playerScrubber()  { return document.getElementsByClassName('vjs-control-bar')[0]; }
     static isContextReady()      { return this.playerWrapper != undefined; }
@@ -69,7 +79,7 @@ window.VideoJsWrapper = class {
     pause() { this.videoPlayer.pause(); }
     start() { this.videoPlayer.play(); }
     getSeekPosition() { return this.videoPlayer.currentTime }
-    seek(position)    { this.videoPlayer.seek(position); }
+    seek(position)    { this.videoPlayer.currentTime = position; }
 
     heartBeat() {
         var self = this;
