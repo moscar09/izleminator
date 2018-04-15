@@ -19,8 +19,13 @@ if(url.searchParams.get("izl_room") != undefined) {
         for (var i = 0; i < iframes.length; i++) {
             var iframe = iframes[i];
             var iframe_url = new URL(iframe.src);
-            console.dir(iframe_url);
-            iframe_url.searchParams.set("izl_room", roomname);
+
+            if(iframe_url.hash == "") {
+                iframe_url.hash = `izl_room=${roomname}`;
+            } else {
+                iframe_url.hash += `|#izl_room=${roomname}`;
+            }
+
             iframe.src = iframe_url.toString();
         }
     }
@@ -28,7 +33,13 @@ if(url.searchParams.get("izl_room") != undefined) {
     chrome.storage.local.get(["izl_screen_name"], function(items) {
         initialize({screenName: items.izl_screen_name });
     });
-
+} else if (url.hash.match(/izl_room=([a-zA-Z0-9]+)$/gm) && window !== top ) {
+    var regex = RegExp('izl_room=([a-zA-Z0-9]+)$', 'gm');
+    roomname = regex.exec(url.hash)[1];
+    console.log("roomname: " + roomname);
+    chrome.storage.local.get(["izl_screen_name"], function(items) {
+        initialize({screenName: items.izl_screen_name });
+    });
 } else {
     chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
         if (request.izleminate != true || chrome.runtime.id != sender.id) {
