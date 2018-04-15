@@ -98,13 +98,35 @@ function initializeContent(playerClass) {
         switch(data.action) {
             case "seekPlayer":
             case "seekAndStartPlayer":
-                izleminatorClient.sendMessage(data.action + ":" + data.position, IzleminatorClient.MessageTypeEnum.CONTROL);
+                izleminatorClient.sendMessage(
+                    data.action + ":" + data.position,
+                    IzleminatorClient.MessageTypeEnum.CONTROL,
+                    {
+                        action: data.action,
+                        position: String(data.position),
+                        version: "1",
+                    }
+                );
                 break;
             case "pausePlayer":
-                izleminatorClient.sendMessage(data.action, IzleminatorClient.MessageTypeEnum.CONTROL);
+                izleminatorClient.sendMessage(
+                    data.action,
+                    IzleminatorClient.MessageTypeEnum.CONTROL,
+                    {
+                        version: "1",
+                        action: data.action,
+                    }
+                );
                 break;
             case "nextEpisode":
-                izleminatorClient.sendMessage(data.action + ":" + data.episode_id, IzleminatorClient.MessageTypeEnum.CONTROL);
+                izleminatorClient.sendMessage(data.action,
+                    IzleminatorClient.MessageTypeEnum.CONTROL,
+                    {
+                        version: "1",
+                        action: data.action,
+                        episode_id: data.episode_id,
+                    }
+                );
                 break;
             case "heartbeat":
                 izleminatorClient.heartBeat(data.position);

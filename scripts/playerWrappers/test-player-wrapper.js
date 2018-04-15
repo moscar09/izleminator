@@ -6,6 +6,7 @@ window.TestPlayerWrapper = class {
 
         var pauseObj = document.getElementById("pause");
         var startObj = document.getElementById("start");
+        var nextEpisodeObj = document.getElementById("nextEpisode");
         var self = this;
 
         self.inboundActions = {
@@ -42,6 +43,10 @@ window.TestPlayerWrapper = class {
                 self.communicator.postMessage('seekAndStartPlayer', {position: position});
             }
         });
+
+        nextEpisodeObj.addEventListener("click", function() {
+            self.communicator.postMessage('nextEpisode', {episode_id: '000000'});
+        })
 
     }
 

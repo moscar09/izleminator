@@ -38,16 +38,18 @@ window.IzleminatorClient = class {
         this.socket.close();
     }
 
-    sendMessage(message, messageType) {
-        var payload = JSON.stringify({
+    sendMessage(message, messageType, additionalData = {}) {
+        var payload = {
             messageType: messageType,
             content: message
-        });
+        };
+
+        Object.assign(payload, additionalData);
 
         if (messageType != IzleminatorClient.MessageTypeEnum.HEARTBEAT){
             console.dir(payload);
         }
-        this.socket.send(payload);
+        this.socket.send(JSON.stringify(payload));
     }
 
     heartBeat( position ) {
