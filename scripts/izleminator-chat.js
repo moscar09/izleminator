@@ -76,16 +76,29 @@ window.IzleminatorChat = class {
     }
 
     displaySystemMessage(content) {
-        this.latestMessageOwner = null;
-        document.getElementById("chat-history").innerHTML += '<p class="chat-item owner-system">' + content + '</p>';
+        this.appendMessage({
+            content: content,
+            fromUuid: 'SYSTEM',
+        });
     }
 
     displayUserMessage(message) {
+        this.appendMessage(message, message.fromUuid);
+    }
+
+    appendMessage(message, fromUuid) {
         var chatHistory = document.getElementById("chat-history");
         if (message.fromUuid != this.latestMessageOwner) {
             this.latestMessageOwner = message.fromUuid;
-            var messageOwner = message.fromUuid == this.userUuid ? "user" : "world";
-            var newItem = `<div class="chat-item owner-${messageOwner}"><p class="screen-name">${message.from}:</p></div>`;
+
+            var messageOwner;
+            if (message.fromUuid == 'SYSTEM') {
+                messageOwner = 'system';
+                var newItem = `<div class="chat-item owner-${messageOwner}"></div>`;
+            } else {
+                 messageOwner = message.fromUuid == this.userUuid ? "user" : "world";
+                var newItem = `<div class="chat-item owner-${messageOwner}"><p class="screen-name">${message.from}:</p></div>`;
+            }
             chatHistory.innerHTML += newItem;
         }
 
