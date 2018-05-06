@@ -9,50 +9,55 @@ require ('./playerWrappers/video-js-wrapper.js');
 var screenName;
 var roomname;
 var checksDone = 0;
+var isExtensionMode = true;
 
 var url = new URL(window.location.toString());
 
-if(url.searchParams.get("izl_room") != undefined) {
-    roomname = url.searchParams.get("izl_room");
-    if (window === top ) {
-        var iframes = document.getElementsByTagName('iframe');
-        for (var i = 0; i < iframes.length; i++) {
-            var iframe = iframes[i];
-            var iframe_url = new URL(iframe.src);
+if(chrome.storage) {
+    if(url.searchParams.get("izl_room") != undefined) {
+        roomname = url.searchParams.get("izl_room");
+        if (window === top ) {
+            var iframes = document.getElementsByTagName('iframe');
+            for (var i = 0; i < iframes.length; i++) {
+                var iframe = iframes[i];
+                var iframe_url = new URL(iframe.src);
 
-            if(iframe_url.hash == "") {
-                iframe_url.hash = `izl_room=${roomname}`;
-            } else {
-                iframe_url.hash += `|#izl_room=${roomname}`;
+                if(iframe_url.hash == "") {
+                    iframe_url.hash = `izl_room=${roomname}`;
+                } else {
+                    iframe_url.hash += `|#izl_room=${roomname}`;
+                }
+
+                iframe.src = iframe_url.toString();
+            }
+        }
+
+        chrome.storage.local.get(["izl_screen_name"], function(items) {
+            initialize({screenName: items.izl_screen_name });
+        });
+    } else if (url.hash.match(/izl_room=([a-zA-Z0-9]+)$/gm) && window !== top ) {
+        var regex = RegExp('izl_room=([a-zA-Z0-9]+)$', 'gm');
+        roomname = regex.exec(url.hash)[1];
+        console.log("roomname: " + roomname);
+        chrome.storage.local.get(["izl_screen_name"], function(items) {
+            initialize({screenName: items.izl_screen_name });
+        });
+    } else {
+        chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
+            if (request.izleminate != true || chrome.runtime.id != sender.id) {
+                return;
             }
 
-            iframe.src = iframe_url.toString();
-        }
+            roomname = request.room_name;
+            window.history.replaceState({}, 'izleminated', request.new_url);
+            initialize({screenName: request.screen_name });
+        });
     }
-
-    chrome.storage.local.get(["izl_screen_name"], function(items) {
-        initialize({screenName: items.izl_screen_name });
-    });
-} else if (url.hash.match(/izl_room=([a-zA-Z0-9]+)$/gm) && window !== top ) {
-    var regex = RegExp('izl_room=([a-zA-Z0-9]+)$', 'gm');
-    roomname = regex.exec(url.hash)[1];
-    console.log("roomname: " + roomname);
-    chrome.storage.local.get(["izl_screen_name"], function(items) {
-        initialize({screenName: items.izl_screen_name });
-    });
 } else {
-    chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
-        if (request.izleminate != true || chrome.runtime.id != sender.id) {
-            return;
-        }
-
-        roomname = request.room_name;
-        window.history.replaceState({}, 'izleminated', request.new_url);
-        initialize({screenName: request.screen_name });
-    });
+    isExtensionMode = false;
 }
 
-function initialize(args) {
+export function initialize(args) {
     screenName = args.screenName;
     var playerClass = getPlayerClass(window.location.host);
     if (playerClass == undefined) {
@@ -150,13 +155,18 @@ function initializeContent(playerClass) {
 
 function injectJs(playerClass) {
     var scriptIncluder    = document.createElement('script');
-    scriptIncluder.src    = chrome.extension.getURL('scripts/inlined-bundle.js');
+
+    if(isExtensionMode) {
+        scriptIncluder.src    = chrome.extension.getURL('scripts/inlined-bundle.js');
+    } else {
+        scriptIncluder.src    = 'inlined-bundle.js';
+    }
     document.body.appendChild(scriptIncluder);
 }
 
 function getPlayerClass(host) {
     switch (host) {
-        case "tatooine.moscar.ro":
+        case "tatooine.moscar.ro": case "127.0.0.1:8080":
             return TestPlayerWrapper;
         case "www.netflix.com":
             return CadmiumPlayerWrapper;

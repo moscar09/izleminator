@@ -43,7 +43,7 @@ var Izl_pl = new playerClass(new izl_communicator());
 
 function getPlayerClass(host) {
     switch (host) {
-        case "tatooine.moscar.ro":
+        case "tatooine.moscar.ro": case "127.0.0.1:8080":
             return TestPlayerWrapper;
         case "www.netflix.com":
             return CadmiumPlayerWrapper;

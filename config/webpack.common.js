@@ -1,15 +1,14 @@
 const merge = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-
 module.exports = {
 	entry: {
-		inlined: './scripts/inlined.js',
-		main: './scripts/main.js',
-		popup: './scripts/popup.js',
+		'dist/scripts/inlined': './scripts/inlined.js',
+		'dist/scripts/main': './scripts/main.js',
+		'dist/scripts/popup': './scripts/popup.js',
 	},
 	output: {
-		filename: './dist/scripts/[name]-bundle.js'
+		filename: './[name]-bundle.js'
 	},
 	module: {
 		loaders: [{
