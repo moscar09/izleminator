@@ -47,6 +47,7 @@ if(url.searchParams.get("izl_room") != undefined) {
         }
 
         roomname = request.room_name;
+        window.history.replaceState({}, 'izleminated', request.new_url);
         initialize({screenName: request.screen_name });
     });
 }
