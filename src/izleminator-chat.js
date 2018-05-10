@@ -8,7 +8,7 @@ window.IzleminatorChat = class {
         this.latestMessageOwner = null;
         this.userUuid           = null;
 
-        var chat_html = "<div id='izl-cw'><div id='chat-history'></div><textarea id='chatbox' rows='3'></textarea></div>";
+        var chat_html = "<div id='izl-chat'><div id='izl-cw'><div id='chat-history'></div><textarea id='chatbox' rows='3'></textarea></div><div id='izl-emojis'></div></div>";
         var chat_element = new DOMParser().parseFromString(chat_html, 'text/html').body.childNodes[0];
 
         playerClass.izleminate({
@@ -20,6 +20,10 @@ window.IzleminatorChat = class {
     onOpenCallback(event) {
         var self = this;
         document.querySelector("#izl-cw #chatbox").addEventListener("keydown", function(e){
+            if(e.key == ':') {
+                document.getElementById("izl-emojis").className = "visible";
+
+            }
             if(e.keyCode == 13) {
                 e.preventDefault();
                 if (this.value == '') return;

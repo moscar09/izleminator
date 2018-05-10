@@ -9,4 +9,5 @@ testing/*
 izleminator.pem
 *.log
 dist.zip
-public/*
+
+config.js

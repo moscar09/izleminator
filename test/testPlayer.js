@@ -1,9 +1,7 @@
-
-
 document.addEventListener("DOMContentLoaded", function(event) {
-	require('../scripts/inlined.js')
-	const main = require('../scripts/main.js')
+	require('../src/inlined.js')
+	const main = require('../src/main.js')
 
-	console.log("initalied");
+	console.log("initialized26");
 	main.initialize({screenName: 'Testington' });
 });

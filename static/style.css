@@ -1,19 +1,24 @@
-#izl-cw {
-    background-color: #111;
-    font-size: 16px;
+#izl-chat {
+    height: 100%;
     width: 20%;
     height: 100%;
     float: right;
+    position: relative;
+}
+
+#izl-cw {
+    background-color: #111;
+    font-size: 16px;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
 
 #izl-cw #chat-history {
     padding: 20px 0;
     position: absolute;
     bottom: 55px;
-    width: 100%;
     word-wrap: break-word;
     box-sizing: border-box;
     text-align: left;
@@ -64,6 +69,19 @@
 
 #izl-cw .chat-item.owner-system {
     color: #966;
+}
+
+#izl-emojis {
+    background-color: rgba(0,0,0,0.6);
+    padding: 15px;
+    opacity: 0;
+    position: absolute;
+    right: 100%;
+    bottom:0;
+}
+
+#izl-emojis.visible {
+    opacity: 1;
 }
 
 .izl_izleminated .jwcaptions, .izl_izleminated video {

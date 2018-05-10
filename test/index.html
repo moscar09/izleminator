@@ -8,16 +8,17 @@
 
     <script>
     window.onload = function() {
-        console.log("loaded");
-        document.getElementById("state").innerHTML = "not started";
+        var stateObj = document.getElementById("state");
+        var startObj = document.getElementById("start");
+        stateObj.innerHTML = "not started";
 
-        document.getElementById("start").addEventListener("click", function(){
-            document.getElementById("state").innerHTML = "started";
-            document.getElementById("start").setAttribute("data-position", Math.random() * 10000);
+        startObj.addEventListener("click", function(){
+            stateObj.innerHTML = "started";
+            startObj.setAttribute("data-position", Math.random() * 10000);
         });
 
         document.getElementById("pause").addEventListener("click", function(){
-            document.getElementById("state").innerHTML = "paused";
+            stateObj.innerHTML = "paused";
         });
 
     }

@@ -166,7 +166,7 @@ function injectJs(playerClass) {
 
 function getPlayerClass(host) {
     switch (host) {
-        case "tatooine.moscar.ro": case "127.0.0.1:8080":
+        case "tatooine.moscar.ro": case "localhost:8080":
             return TestPlayerWrapper;
         case "www.netflix.com":
             return CadmiumPlayerWrapper;
