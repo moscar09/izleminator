@@ -166,14 +166,12 @@ function injectJs(playerClass) {
 
 function getPlayerClass(host) {
     switch (host) {
-        case "tatooine.moscar.ro": case "localhost:8080":
-            return TestPlayerWrapper;
         case "www.netflix.com":
             return CadmiumPlayerWrapper;
         case "uptostream.com": case "720pizle.com":
             return VideoJsWrapper;
         default:
-            return VideoJsWrapper;
+            return TestPlayerWrapper;
     }
 }
 
