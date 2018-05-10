@@ -1,5 +1,7 @@
 'use strict';
 
+require('./components/emoji-bar.js');
+
 window.IzleminatorChat = class {
     constructor(args) {
         this.playerMedia   = playerClass.playerMedia;
@@ -8,28 +10,59 @@ window.IzleminatorChat = class {
         this.latestMessageOwner = null;
         this.userUuid           = null;
 
-        var chat_html = "<div id='izl-chat'><div id='izl-cw'><div id='chat-history'></div><textarea id='chatbox' rows='3'></textarea></div><div id='izl-emojis'></div></div>";
+        var chat_html = "<div id='izl-chat'><div id='izl-cw'><div id='chat-history'></div><textarea id='chatbox' rows='3'></textarea></div><ul id='izl-emojis'></ul></div>";
         var chat_element = new DOMParser().parseFromString(chat_html, 'text/html').body.childNodes[0];
 
         playerClass.izleminate({
             wrapper_class: 'izl_izleminated',
             chat_html: chat_element,
         });
+
+        this.textbox  = document.querySelector("#izl-cw #chatbox");
+        this.emojiBar = new EmojiBar();
     }
 
     onOpenCallback(event) {
         var self = this;
-        document.querySelector("#izl-cw #chatbox").addEventListener("keydown", function(e){
-            if(e.key == ':') {
-                document.getElementById("izl-emojis").className = "visible";
+        self.textbox.addEventListener("keydown", function(e){
 
-            }
-            if(e.keyCode == 13) {
+            if(e.key.match(/^[:a-z_]$/i) || e.key == 'Backspace') {
+                var found = this.value.substring(0, this.selectionStart).match(/:[a-z_]{2,}:?$/i);
+
+                if(found) {
+                    var emojiCode = e.key == 'Backspace'
+                        ? found[0].substring(0, found[0].length - 1)
+                        : found[0] + e.key;
+
+                    self.emojiBar.show(emojiCode.trim());
+
+                    var emoji = self.emojiBar.getEmoji(emojiCode);
+
+                    if (emoji) {
+                        this.value = this.value.replace(found[0], emoji);
+                        self.emojiBar.hide();
+                        e.preventDefault();
+                    }
+                } else {
+                    self.emojiBar.hide();
+                }
+
+            } else if(self.emojiBar.isActive() && (e.key == 'ArrowLeft' || e.key == 'ArrowRight')) {
+                e.key == 'ArrowLeft' ? self.emojiBar.sendLeft() : self.emojiBar.sendRight();
                 e.preventDefault();
-                if (this.value == '') return;
+            } else if(e.key == 'Enter') {
 
-                self.chatClient.sendMessage(this.value, IzleminatorClient.MessageTypeEnum.CHAT);
-                this.value = '';
+                if(self.emojiBar.isActive()) {
+                    var found = this.value.substring(0, this.selectionStart).match(/:[a-z_]{2,}:?$/i);
+                    if(found) {
+                        var emoji = self.emojiBar.autocompleteEmoji();
+                        this.value = this.value.replace(found[0], emoji);
+                        e.preventDefault();
+                    }
+                } else {
+                    self._submitMessage();
+                }
+                e.preventDefault();
             }
             e.stopPropagation();
         });
@@ -89,6 +122,15 @@ window.IzleminatorChat = class {
     displayUserMessage(message) {
         this.appendMessage(message, message.fromUuid);
     }
+
+    _submitMessage(message) {
+        if (this.textbox.value == '') return;
+        this.emojiBar.hide();
+
+        this.chatClient.sendMessage(this.textbox.value, IzleminatorClient.MessageTypeEnum.CHAT);
+        this.textbox.value = '';
+    }
+
 
     appendMessage(message, fromUuid) {
         var chatHistory = document.getElementById("chat-history");

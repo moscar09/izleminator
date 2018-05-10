@@ -21,10 +21,12 @@ module.exports = (env, argv) => {
         devServer: {
             contentBase: path.join(__dirname, "dist/public"),
             port: 9090,
+            inline: true,
         },
         module: {
             rules: [{
                 test: /\.js$/,
+                exclude: /(node_modules)/,
                 loader: 'babel-loader',
                 query: {
                     presets: ['es2015']

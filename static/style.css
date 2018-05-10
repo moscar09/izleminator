@@ -23,7 +23,6 @@
     word-wrap: break-word;
     box-sizing: border-box;
     text-align: left;
-
 }
 
 #izl-cw #chatbox {
@@ -75,10 +74,28 @@
 #izl-emojis {
     background-color: rgba(0,0,0,0.6);
     padding: 15px;
-    opacity: 0;
+    margin: 0;
+    box-sizing: border-box;
     position: absolute;
     right: 100%;
     bottom:0;
+    opacity: 0;
+    max-width: 400%;
+    display: flex;
+    flex-direction:row;
+    list-style-type: none;
+    font-size: 20px;
+    z-index: 1000;
+}
+
+#izl-emojis li {
+    width: 1.4em;
+    text-align: center;
+    line-height: 1.4em;
+}
+
+#izl-emojis li.selected {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #izl-emojis.visible {

@@ -6,7 +6,9 @@
   "repository": "https://github.com/moscar09/izleminator",
   "author": "Oscar Marginean",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "emojione": "^3.1.4"
+  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",

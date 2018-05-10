@@ -2,9 +2,9 @@
 
 require("./izleminator-client.js");
 require("./izleminator-chat.js");
-require ('./playerWrappers/cadmium-player-wrapper.js');
+require('./playerWrappers/cadmium-player-wrapper.js');
 require('./playerWrappers/test-player-wrapper.js');
-require ('./playerWrappers/video-js-wrapper.js');
+require('./playerWrappers/video-js-wrapper.js');
 
 var screenName;
 var roomname;
@@ -55,6 +55,7 @@ if(chrome.storage) {
     }
 } else {
     isExtensionMode = false;
+    initialize
 }
 
 export function initialize(args) {
